@@ -15,11 +15,11 @@ extension Settings {
 
                 Section(header: Text("Devices")) {
                     Text("Pump").navigationLink(to: .pumpConfig, from: self)
+                    Text("CGM").navigationLink(to: .cgm, from: self)
                 }
 
                 Section(header: Text("Services")) {
                     Text("Nightscout").navigationLink(to: .nighscoutConfig, from: self)
-                    Text("CGM").navigationLink(to: .cgm, from: self)
                 }
 
                 Section(header: Text("Configuration")) {
