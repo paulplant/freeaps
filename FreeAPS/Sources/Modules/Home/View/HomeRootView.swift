@@ -55,7 +55,8 @@ extension Home {
                 CurrentGlucoseView(
                     recentGlucose: $state.recentGlucose,
                     delta: $state.glucoseDelta,
-                    units: $state.units
+                    units: $state.units,
+                    eventualBG: $state.eventualBG
                 )
                 .onTapGesture {
                     state.openCGM()
@@ -170,6 +171,7 @@ extension Home {
             HStack(alignment: .center) {
                 Group {
                     Circle().fill(Color.loopGreen).frame(width: 8, height: 8)
+                        .padding(.leading, 8)
                     Text("BG")
                         .font(.system(size: 12, weight: .bold)).foregroundColor(.loopGreen)
                 }
