@@ -34,7 +34,12 @@ extension Home {
                 Spacer()
                 VStack(alignment: .leading, spacing: 12) {
                     HStack {
-                        Text("IOB").font(.caption2).foregroundColor(.secondary)
+//                        Text("IOB").font(.caption2).foregroundColor(.secondary)
+                        Image("bolus1")
+                            .renderingMode(.template)
+                            .resizable()
+                            .frame(width: 12, height: 12)
+                            .foregroundColor(.insulin)
                         Text(
                             (numberFormatter.string(from: (state.suggestion?.iob ?? 0) as NSNumber) ?? "0") +
                                 NSLocalizedString(" U", comment: "Insulin unit")
@@ -42,7 +47,12 @@ extension Home {
                         .font(.system(size: 12, weight: .bold))
                     }
                     HStack {
-                        Text("COB").font(.caption2).foregroundColor(.secondary)
+//                        Text("COB").font(.caption2).foregroundColor(.secondary)
+                        Image("premeal")
+                            .renderingMode(.template)
+                            .resizable()
+                            .frame(width: 12, height: 12)
+                            .foregroundColor(.loopYellow)
                         Text(
                             (numberFormatter.string(from: (state.suggestion?.cob ?? 0) as NSNumber) ?? "0") +
                                 NSLocalizedString(" g", comment: "gram of carbs")
@@ -200,14 +210,14 @@ extension Home {
                         .font(.system(size: 12, weight: .bold)).foregroundColor(.uam)
                 }
 
-                if let eventualBG = state.eventualBG {
-                    Text(
-                        "⇢ " + numberFormatter.string(
-                            from: (state.units == .mmolL ? eventualBG.asMmolL : Decimal(eventualBG)) as NSNumber
-                        )!
-                    )
-                    .font(.system(size: 12, weight: .bold)).foregroundColor(.secondary)
-                }
+//                if let eventualBG = state.eventualBG {
+//                    Text(
+//                        "⇢ " + numberFormatter.string(
+//                            from: (state.units == .mmolL ? eventualBG.asMmolL : Decimal(eventualBG)) as NSNumber
+//                        )!
+//                    )
+//                    .font(.system(size: 12, weight: .bold)).foregroundColor(.secondary)
+//                }
             }
             .frame(maxWidth: .infinity, maxHeight: 30)
         }
@@ -218,9 +228,11 @@ extension Home {
                     header
                         .frame(maxHeight: 70)
                         .padding(.top, geo.safeAreaInsets.top)
-                        .background(Color.gray.opacity(0.2))
+                        .background(Color.gray.opacity(0.25))
 
                     infoPanal
+                        .background(Color.secondary.opacity(0.05))
+                    Divider().background(Color.gray) // Added 29/4
                     MainChartView(
                         glucose: $state.glucose,
                         suggestion: $state.suggestion,
@@ -238,21 +250,22 @@ extension Home {
                     )
                     .padding(.bottom)
                     .modal(for: .dataTable, from: self)
-
-                    legendPanal
-
+                    Divider().background(Color.gray) // Added 29/4
+//                    legendPanal
+//                        .background(Color.secondary.opacity(0.05))
+//                    Divider().background(Color.gray) // Added 29/4
                     ZStack {
-                        Rectangle().fill(Color.gray.opacity(0.2)).frame(height: 50 + geo.safeAreaInsets.bottom)
+                        Rectangle().fill(Color.gray.opacity(0.25)).frame(height: 50 + geo.safeAreaInsets.bottom)
 
                         HStack {
                             Button { state.showModal(for: .addCarbs) }
                             label: {
                                 ZStack(alignment: Alignment(horizontal: .trailing, vertical: .bottom)) {
-                                    Image("carbs")
+                                    Image("carbs1")
                                         .renderingMode(.template)
                                         .resizable()
-                                        .frame(width: 24, height: 24)
-                                        .foregroundColor(.loopGreen)
+                                        .frame(width: 30, height: 30)
+                                        .foregroundColor(.loopYellow)
                                         .padding(8)
                                     if let carbsReq = state.carbsRequired {
                                         Text(numberFormatter.string(from: carbsReq as NSNumber)!)
@@ -264,23 +277,23 @@ extension Home {
                                 }
                             }
                             Spacer()
-                            Button { state.showModal(for: .addTempTarget) }
-                            label: {
-                                Image("target")
-                                    .renderingMode(.template)
-                                    .resizable()
-                                    .frame(width: 24, height: 24)
-                                    .padding(8)
-                            }.foregroundColor(.loopYellow)
-                            Spacer()
                             Button { state.showModal(for: .bolus(waitForDuggestion: false)) }
                             label: {
                                 Image("bolus")
                                     .renderingMode(.template)
                                     .resizable()
-                                    .frame(width: 24, height: 24)
+                                    .frame(width: 30, height: 30)
                                     .padding(8)
                             }.foregroundColor(.insulin)
+                            Spacer()
+                            Button { state.showModal(for: .addTempTarget) }
+                            label: {
+                                Image("target1")
+                                    .renderingMode(.template)
+                                    .resizable()
+                                    .frame(width: 30, height: 30)
+                                    .padding(8)
+                            }.foregroundColor(.loopGreen)
                             Spacer()
                             if state.allowManualTemp {
                                 Button { state.showModal(for: .manualTempBasal) }
@@ -288,17 +301,17 @@ extension Home {
                                     Image("bolus1")
                                         .renderingMode(.template)
                                         .resizable()
-                                        .frame(width: 24, height: 24)
+                                        .frame(width: 30, height: 30)
                                         .padding(8)
-                                }.foregroundColor(.insulin)
+                                }.foregroundColor(.basal)
                                 Spacer()
                             }
                             Button { state.showModal(for: .settings) }
                             label: {
-                                Image("settings1")
+                                Image("settings")
                                     .renderingMode(.template)
                                     .resizable()
-                                    .frame(width: 24, height: 24)
+                                    .frame(width: 30, height: 30)
                                     .padding(8)
                             }.foregroundColor(.loopGray)
                         }
