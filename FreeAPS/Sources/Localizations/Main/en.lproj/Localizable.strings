@@ -306,7 +306,7 @@ Enact a temp Basal or a temp target */
 "Pump Settings" = "Pump Settings";
 
 /* Insulin sensitivity factor */
-"ISF :" = "ISF: ";
+"ISF" = "ISF";
 
 /* Insulin unit per hour */
 "U/hr" = "U/hr";

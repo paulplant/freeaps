@@ -1,11 +1,12 @@
+import CoreMedia
 import SwiftUI
 
 struct CurrentGlucoseView: View {
     @Binding var recentGlucose: BloodGlucose?
     @Binding var delta: Int?
     @Binding var units: GlucoseUnits
-//    @Binding var eventualBG: Int?
-//    @Binding var currentISF: Int?
+    @Binding var eventualBG: Int?
+    @Binding var currentISF: Int?
 
     private var glucoseFormatter: NumberFormatter {
         let formatter = NumberFormatter()
@@ -40,10 +41,8 @@ struct CurrentGlucoseView: View {
     }
 
     var colorOfGlucose: Color {
-        guard var recentBG = recentGlucose?.glucose
+        guard let recentBG = recentGlucose?.glucose
         else { return .loopYellow }
-
-        // recentBG = Int(recentBG.asMmolL) // convert to mmol/l for calculation
 
         switch recentBG {
         case 55 ... 74:
@@ -80,8 +79,8 @@ struct CurrentGlucoseView: View {
     }
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 6) {
-            HStack(alignment: .center, spacing: 6) {
+        VStack(alignment: .center, spacing: 7) {
+            HStack(alignment: .center, spacing: 4) {
                 Text(
                     recentGlucose?.glucose
                         .map {
@@ -94,34 +93,44 @@ struct CurrentGlucoseView: View {
                 .foregroundColor(colorOfGlucose)
                 image.padding(.bottom, 2)
 
-//                if let eventualBG = eventualBG {
-//                    if units == .mmolL {
-//                        Text(
-//                            glucoseFormatter
-//                                .string(from: Decimal(eventualBG).asMmolL as NSNumber)!
-//                        )
-//                        .font(.system(size: 18, weight: .regular)).foregroundColor(.secondary).fixedSize()
-//                    } else {
-//                        Text("\(eventualBG)").font(.system(size: 18, weight: .regular)).foregroundColor(.secondary)
-//                            .fixedSize()
-//                    }
-//                }
+                if let eventualBG = eventualBG {
+                    if units == .mmolL {
+                        Text(
+                            glucoseFormatter
+                                .string(from: Decimal(eventualBG).asMmolL as NSNumber)!
+                        )
+                        .font(.system(size: 18, weight: .regular)).foregroundColor(.secondary).fixedSize()
+
+                    } else {
+                        Text("\(eventualBG)").font(.system(size: 18, weight: .regular)).foregroundColor(.secondary)
+                            .fixedSize()
+                    }
+                }
+                // Spacer()
             } // .padding(.leading, 0)
             HStack(alignment: .lastTextBaseline, spacing: 2) {
                 Text(
                     "\(minutesAgo)m "
                 ).font(.system(size: 12, weight: .bold)).foregroundColor(colorOfMinutesAgo(minutesAgo))
+                    .fixedSize()
                 Text(
                     delta
                         .map { deltaFormatter.string(from: Double(units == .mmolL ? $0.asMmolL : Decimal($0)) as NSNumber)!
                         } ??
                         "--"
                 ).font(.system(size: 12, weight: .bold))
-//                Text(
-//                    NSLocalizedString("ISF :", comment: "current ISF") +
-//                        (numberFormatter.string(from: (currentISF ?? 0) as NSNumber) ?? "0")
-//                )
-//                .font(.system(size: 12, weight: .bold))
+                    .fixedSize()
+                Text(
+                    NSLocalizedString("ISF", comment: "current ISF") + ":"
+                )
+                .font(.system(size: 12))
+                .padding(.leading, 6)
+                .fixedSize()
+                Text(
+                    numberFormatter.string(from: (currentISF ?? 0) as NSNumber) ?? "0"
+                )
+                .font(.system(size: 12, weight: .bold))
+                .fixedSize()
             }
         }
     }

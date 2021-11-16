@@ -247,6 +247,7 @@ extension Home {
             }
 
             eventualBG = suggestion.eventualBG
+            isf = suggestion.isf
         }
 
         private func setupReservoir() {
