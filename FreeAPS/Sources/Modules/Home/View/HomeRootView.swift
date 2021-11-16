@@ -65,11 +65,32 @@ extension Home {
                 CurrentGlucoseView(
                     recentGlucose: $state.recentGlucose,
                     delta: $state.glucoseDelta,
-                    units: $state.units,
-                    eventualBG: $state.eventualBG
+                    units: $state.units // ,
+//                    eventualBG: $state.eventualBG,
+//                    currentISF: $state.isf
                 )
                 .onTapGesture {
                     state.openCGM()
+                }
+                // Spacer()
+                VStack(alignment: .leading, spacing: 9) {
+                    if let eventualBG = state.eventualBG {
+                        Text(
+                            numberFormatter.string(
+                                from: (
+                                    state.units == .mmolL ? eventualBG
+                                        .asMmolL : Decimal(eventualBG)
+                                ) as NSNumber
+                            )!
+                        )
+                        .font(.system(size: 18)).foregroundColor(.secondary)
+                    }
+                    Text(
+                        NSLocalizedString("ISF :", comment: "ISF") +
+                            (numberFormatter.string(from: (state.suggestion?.isf ?? 0) as NSNumber) ?? "0")
+                    )
+                    .font(.system(size: 12))
+                    .padding(.leading, 2)
                 }
                 Spacer()
                 PumpView(
@@ -100,7 +121,6 @@ extension Home {
                 }.onLongPressGesture {
                     state.runLoop()
                 }
-                Spacer()
             }.frame(maxWidth: .infinity)
         }
 
