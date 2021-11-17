@@ -8,6 +8,7 @@ extension Home {
         @Injected() var settingsManager: SettingsManager!
         @Injected() var apsManager: APSManager!
         @Injected() var nightscoutManager: NightscoutManager!
+        @Injected() var calendarManager: CalendarManager!
         private let timer = DispatchTimer(timeInterval: 5)
         private(set) var filteredHours = 24
 
@@ -146,6 +147,7 @@ extension Home {
                 } else {
                     self.glucoseDelta = nil
                 }
+                self.calendarManager.createEvent(for: self.recentGlucose, delta: self.glucoseDelta)
             }
         }
 
@@ -276,6 +278,8 @@ extension Home {
                 url = URL(string: "spikeapp://")!
             case "http://127.0.0.1:17580":
                 url = URL(string: "diabox://")!
+            case CGMType.libreTransmitter.appURL?.absoluteString:
+                showModal(for: .libreConfig)
             default: break
             }
             UIApplication.shared.open(url, options: [:], completionHandler: nil)
