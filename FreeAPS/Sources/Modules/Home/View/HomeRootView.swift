@@ -72,25 +72,6 @@ extension Home {
                 .onTapGesture {
                     state.openCGM()
                 }
-                // Spacer()
-//                VStack(alignment: .leading, spacing: 9) {
-//                    if let eventualBG = state.eventualBG {
-//                        Text(
-//                            numberFormatter.string(
-//                                from: (
-//                                    state.units == .mmolL ? eventualBG
-//                                        .asMmolL : Decimal(eventualBG)
-//                                ) as NSNumber
-//                            )!
-//                        )
-//                        .font(.system(size: 18)).foregroundColor(.secondary)
-//                    }
-//                    Text(
-//                        NSLocalizedString("ISF :", comment: "ISF") +
-//                            (numberFormatter.string(from: (state.isf ?? 0) as NSNumber) ?? "0")
-//                    )
-//                    .font(.system(size: 12, weight: .bold))
-//                }
                 Spacer()
                 PumpView(
                     reservoir: $state.reservoir,
@@ -247,9 +228,9 @@ extension Home {
                 VStack(spacing: 0) {
                     header
                         .frame(maxHeight: 70)
-                        .padding(.top, geo.safeAreaInsets.top)
+                        .padding(.top, geo.safeAreaInsets.top - 10)
                         .background(Color.gray.opacity(0.25))
-
+                    Divider().background(Color.gray) // Added 29/4
                     infoPanal
                         .background(Color.secondary.opacity(0.05))
                     Divider().background(Color.gray) // Added 29/4
@@ -268,14 +249,14 @@ extension Home {
                         timerDate: $state.timerDate,
                         units: $state.units
                     )
-                    .padding(.bottom)
+                    .padding(.bottom, 4)
                     .modal(for: .dataTable, from: self)
                     Divider().background(Color.gray) // Added 29/4
 //                    legendPanal
 //                        .background(Color.secondary.opacity(0.05))
 //                    Divider().background(Color.gray) // Added 29/4
                     ZStack {
-                        Rectangle().fill(Color.gray.opacity(0.25)).frame(height: 50 + geo.safeAreaInsets.bottom)
+                        Rectangle().fill(Color.gray.opacity(0.25)).frame(height: 50 + geo.safeAreaInsets.bottom - 10)
 
                         HStack {
                             Button { state.showModal(for: .addCarbs) }
@@ -335,7 +316,7 @@ extension Home {
                             }.foregroundColor(.loopGray)
                         }
                         .padding(.horizontal, 24)
-                        .padding(.bottom, geo.safeAreaInsets.bottom)
+                        .padding(.bottom, geo.safeAreaInsets.bottom - 10)
                     }
                 }
                 .edgesIgnoringSafeArea(.vertical)
