@@ -297,8 +297,7 @@ extension Home {
                                 }
                             }
                             Spacer()
-                            Button { state.showModal(for: .bolus(waitForDuggestion: false)) }
-                            label: {
+                            Button { state.showModal(for: .bolus(waitForSuggestion: false)) } label: {
                                 Image("bolus")
                                     .renderingMode(.template)
                                     .resizable()
@@ -307,7 +306,6 @@ extension Home {
                             }.foregroundColor(.insulin)
                             Spacer()
                             Button { state.showModal(for: .addTempTarget) }
-                            Button { state.showModal(for: .bolus(waitForSuggestion: false)) }
                             label: {
                                 Image("target1")
                                     .renderingMode(.template)

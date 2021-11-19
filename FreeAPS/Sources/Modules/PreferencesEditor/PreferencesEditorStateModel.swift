@@ -62,8 +62,7 @@ extension PreferencesEditor {
                     displayName: "Use Custom Peak Time",
                     type: .boolean(keypath: \.useCustomPeakTime),
                     infoText: NSLocalizedString(
-                        "Defaults to false. Setting to true allows changing insulinPeakTime. Beware: Oref assumes minimal applicable insulinPeakTimes for ultra-papid (Lyumjev) & rapid-acting (Fiasp) curves of 45 and 55min respectively. Using a lower custom PeakTime will result in issues with FreeAPS-X.",
-                        comment: "Use Custom Peak Time"
+                        "Defaults to false. Setting to true allows changing insulinPeakTime", comment: "Use Custom Peak Time"
                     ),
                     settable: self
                 ),
@@ -71,7 +70,7 @@ extension PreferencesEditor {
                     displayName: "Insulin Peak Time",
                     type: .decimal(keypath: \.insulinPeakTime),
                     infoText: NSLocalizedString(
-                        "Time of maximum blood glucose lowering effect of insulin, in minutes. Beware: Oref assumes minimal applicable insulinPeakTimes for ultra-papid (Lyumjev) & rapid-acting (Fiasp) curves of 45 and 55min respectively. Using a lower custom PeakTime will result in issues with FreeAPS-X. ",
+                        "Time of maximum blood glucose lowering effect of insulin, in minutes. Beware: Oref assumes for ultra-papid (Lyumjev) & rapid-acting (Fiasp) curves minimal (35 & 50 min) and maximal (100 & 120 min) applicable insulinPeakTimes. Using a custom insulinPeakTime outside these bounds will result in issues with FreeAPS-X, longer loop calculations and possible red loops.",
                         comment: "Insulin Peak Time"
                     ),
                     settable: self
@@ -308,23 +307,6 @@ extension PreferencesEditor {
                     infoText: NSLocalizedString(
                         "This feature, enabled by default, resets the autosens ratio to neutral when you rewind your pump, on the assumption that this corresponds to a probable site change. Autosens will begin learning sensitivity anew from the time of the rewind, which may take up to 6 hours. If you usually rewind your pump independently of site changes, you may want to consider disabling this feature.",
                         comment: "Rewind Resets Autosens"
-                    ),
-                    settable: self
-                ),
-                Field(
-                    displayName: "Use Custom Peak Time",
-                    type: .boolean(keypath: \.useCustomPeakTime),
-                    infoText: NSLocalizedString(
-                        "Defaults to false. Setting to true allows changing insulinPeakTime", comment: "Use Custom Peak Time"
-                    ),
-                    settable: self
-                ),
-                Field(
-                    displayName: "Insulin Peak Time",
-                    type: .decimal(keypath: \.insulinPeakTime),
-                    infoText: NSLocalizedString(
-                        "Time of maximum blood glucose lowering effect of insulin, in minutes. Beware: Oref assumes for ultra-papid (Lyumjev) & rapid-acting (Fiasp) curves minimal (35 & 50 min) and maximal (100 & 120 min) applicable insulinPeakTimes. Using a custom insulinPeakTime outside these bounds will result in issues with FreeAPS-X, longer loop calculations and possible red loops.",
-                        comment: "Insulin Peak Time"
                     ),
                     settable: self
                 ),
