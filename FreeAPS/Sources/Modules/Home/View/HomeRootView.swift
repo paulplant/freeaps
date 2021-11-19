@@ -38,7 +38,7 @@ extension Home {
                         Image("bolus1")
                             .renderingMode(.template)
                             .resizable()
-                            .frame(width: 12, height: 12)
+                            .frame(width: 14, height: 14)
                             .foregroundColor(.insulin)
                         Text(
                             (numberFormatter.string(from: (state.suggestion?.iob ?? 0) as NSNumber) ?? "0") +
@@ -53,6 +53,9 @@ extension Home {
                             .resizable()
                             .frame(width: 12, height: 12)
                             .foregroundColor(.loopYellow)
+                            .padding(.bottom, 2)
+                            .padding(.leading, 1)
+                            .padding(.trailing, 1)
                         Text(
                             (numberFormatter.string(from: (state.suggestion?.cob ?? 0) as NSNumber) ?? "0") +
                                 NSLocalizedString(" g", comment: "gram of carbs")
