@@ -307,6 +307,7 @@ extension Home {
                             }.foregroundColor(.insulin)
                             Spacer()
                             Button { state.showModal(for: .addTempTarget) }
+                            Button { state.showModal(for: .bolus(waitForSuggestion: false)) }
                             label: {
                                 Image("target1")
                                     .renderingMode(.template)
