@@ -16,6 +16,7 @@ struct CurrentGlucoseView: View {
             formatter.minimumFractionDigits = 1
             formatter.maximumFractionDigits = 1
         }
+        formatter.roundingMode = .halfUp
         return formatter
     }
 
