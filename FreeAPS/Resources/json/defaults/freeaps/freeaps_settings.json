@@ -10,5 +10,8 @@
     "insulinReqFraction": 0.7,
     "skipBolusScreenAfterCarbs": false,
     "cgm": "nightscout",
-    "uploadGlucose": false
+    "uploadGlucose": false,
+    "bottomTargetLine": 70,
+    "topTargetLine": 180,
+    "icycleBasals": false
 }

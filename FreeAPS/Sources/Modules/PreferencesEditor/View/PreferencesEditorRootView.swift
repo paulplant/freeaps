@@ -38,6 +38,20 @@ extension PreferencesEditor {
                     Toggle("Skip Bolus screen after carbs", isOn: $state.skipBolusScreenAfterCarbs)
                 }
 
+                Section(header: Text("Graphics Settings")) {
+                    Toggle("Basals Icycle Style", isOn: $state.icycleBasals)
+
+                    HStack {
+                        Text("Upper Target Line")
+                        DecimalTextField("", value: $state.topTargetLine, formatter: formatter)
+                    }
+
+                    HStack {
+                        Text("Bottom Target Line")
+                        DecimalTextField("", value: $state.bottomTargetLine, formatter: formatter)
+                    }
+                }
+
                 ForEach(state.sections.indexed(), id: \.1.id) { sectionIndex, section in
                     Section(header: Text(section.displayName)) {
                         ForEach(section.fields.indexed(), id: \.1.id) { fieldIndex, field in

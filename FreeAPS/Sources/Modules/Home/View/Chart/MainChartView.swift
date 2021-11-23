@@ -63,6 +63,11 @@ struct MainChartView: View {
     @State private var glucoseYGange: GlucoseYRange = (0, 0, 0, 0)
     @State private var offset: CGFloat = 0
     @State private var cachedMaxBasalRate: Decimal?
+    
+    @Injected() var settingsManager: SettingsManager!
+
+//    let upperTarget = CGFloat(settingsManager.settings.topTargetLine)
+//    let lowerTarget = CGFloat(settingsManager.settings.bottomTargetLine)
 
     private let calculationQueue = DispatchQueue(label: "MainChartView.calculationQueue")
 
@@ -159,7 +164,7 @@ struct MainChartView: View {
             }
             let range = glucoseYGange
             let bottomstep = (range.maxY - range.minY) / CGFloat(range.maxValue - range.minValue) *
-                (CGFloat(range.maxValue) - Config.lowerTarget)
+                (CGFloat(range.maxValue) - CGFloat(settingsManager.settings.bottomTargetLine))
             if bottomstep > 0 {
                 Path { path in
                     path.move(to: CGPoint(x: 0, y: range.minY + bottomstep))

@@ -14,6 +14,9 @@ struct FreeAPSSettings: JSON, Equatable {
     var cgm: CGMType = .nightscout
     var uploadGlucose: Bool = false
     var useCalendar: Bool = false
+    var bottomTargetLine: Decimal = 70
+    var topTargetLine: Decimal = 180
+    var icycleBasals: Bool = false
 }
 
 extension FreeAPSSettings: Decodable {
@@ -72,6 +75,14 @@ extension FreeAPSSettings: Decodable {
 
         if let useCalendar = try? container.decode(Bool.self, forKey: .useCalendar) {
             settings.useCalendar = useCalendar
+        }
+
+        if let topTargetLine = try? container.decode(Decimal.self, forKey: .topTargetLine) {
+            settings.topTargetLine = topTargetLine
+        }
+
+        if let bottomTargetLine = try? container.decode(Decimal.self, forKey: .bottomTargetLine) {
+            settings.bottomTargetLine = bottomTargetLine
         }
 
         self = settings

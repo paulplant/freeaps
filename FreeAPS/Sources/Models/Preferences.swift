@@ -47,6 +47,9 @@ struct Preferences: JSON {
     var suspendZerosIOB: Bool = true
     var timestamp: Date?
     var floatingcarbs: Bool = false
+//    var bottomTargetLine: Decimal = 70
+//    var topTargetLine: Decimal = 180
+//    var icycleBasals: Bool = false
 }
 
 extension Preferences {

@@ -9,6 +9,9 @@ extension PreferencesEditor {
         @Published var allowAnnouncements = false
         @Published var insulinReqFraction: Decimal = 0.7
         @Published var skipBolusScreenAfterCarbs = false
+        @Published var bottomTargetLine: Decimal = 70
+        @Published var topTargetLine: Decimal = 180
+        @Published var icycleBasals: Bool = false
 
         @Published var sections: [FieldSection] = []
 
@@ -19,6 +22,8 @@ extension PreferencesEditor {
 
             insulinReqFraction = settingsManager.settings.insulinReqFraction
             skipBolusScreenAfterCarbs = settingsManager.settings.skipBolusScreenAfterCarbs
+            topTargetLine = settingsManager.settings.topTargetLine
+            bottomTargetLine = settingsManager.settings.bottomTargetLine
 
             $unitsIndex
                 .removeDuplicates()
@@ -46,6 +51,20 @@ extension PreferencesEditor {
                 .removeDuplicates()
                 .sink { [weak self] skip in
                     self?.settingsManager.settings.skipBolusScreenAfterCarbs = skip
+                }
+                .store(in: &lifetime)
+
+            $topTargetLine
+                .removeDuplicates()
+                .sink { [weak self] tTL in
+                    self?.settingsManager.settings.topTargetLine = tTL
+                }
+                .store(in: &lifetime)
+
+            $bottomTargetLine
+                .removeDuplicates()
+                .sink { [weak self] bTL in
+                    self?.settingsManager.settings.bottomTargetLine = bTL
                 }
                 .store(in: &lifetime)
 
@@ -402,6 +421,36 @@ extension PreferencesEditor {
                 )
             ]
 
+//            let graphicsSettings = [
+//                Field(
+//                    displayName: "Bottom Target Line",
+//                    type: .decimal(keypath: \.bottomTargetLine),
+//                    infoText: NSLocalizedString(
+//                        "Draws a red line for the lower target range value",
+//                        comment: "draw red line at graph"
+//                    ),
+//                    settable: self
+//                ),
+//                Field(
+//                    displayName: "Top Target Line",
+//                    type: .decimal(keypath: \.topTargetLine),
+//                    infoText: NSLocalizedString(
+//                        "Draws a yellow line for the upper target range value",
+//                        comment: "draw yellow line at graph"
+//                    ),
+//                    settable: self
+//                ),
+//                Field(
+//                    displayName: "Enable icycled Basal",
+//                    type: .boolean(keypath: \.icycleBasals),
+//                    infoText: NSLocalizedString(
+//                        "Defaults to false. Draws the basal in NS icyle style.",
+//                        comment: "Icycle basal"
+//                    ),
+//                    settable: self
+//                )
+//            ]
+
             let xpmSettings = [
                 Field(
                     displayName: "Enable Floating Carbs",
@@ -469,6 +518,10 @@ extension PreferencesEditor {
                     displayName: NSLocalizedString("XPM settings", comment: "Experimental stuff settings"),
                     fields: xpmSettings
                 )
+//                FieldSection(
+//                    displayName: NSLocalizedString("Graphics settings", comment: "Experimental graphic settings"),
+//                    fields: graphicsSettings
+//                )
             ]
         }
 
