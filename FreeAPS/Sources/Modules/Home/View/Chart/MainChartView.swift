@@ -160,7 +160,7 @@ struct MainChartView: View {
             let range = glucoseYGange
             let bottomstep = (range.maxY - range.minY) / CGFloat(range.maxValue - range.minValue) *
                 (CGFloat(range.maxValue) - Config.lowerTarget)
-            if bottomstep > 0 {
+            if CGFloat(range.minValue) < Config.lowerTarget {
                 Path { path in
                     path.move(to: CGPoint(x: 0, y: range.minY + bottomstep))
                     path.addLine(to: CGPoint(x: fullSize.width, y: range.minY + bottomstep))
