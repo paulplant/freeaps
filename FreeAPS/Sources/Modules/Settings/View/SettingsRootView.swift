@@ -20,6 +20,7 @@ extension Settings {
 
                 Section(header: Text("Services")) {
                     Text("Nightscout").navigationLink(to: .nighscoutConfig, from: self)
+                    Text("Notifications").navigationLink(to: .notificationsConfig, from: self)
                 }
 
                 Section(header: Text("Configuration")) {

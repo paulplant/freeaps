@@ -7,6 +7,7 @@ struct CurrentGlucoseView: View {
     @Binding var units: GlucoseUnits
     @Binding var eventualBG: Int?
     @Binding var currentISF: Int?
+    @Binding var alarm: GlucoseAlarm?
 
     private var glucoseFormatter: NumberFormatter {
         let formatter = NumberFormatter()
@@ -92,6 +93,7 @@ struct CurrentGlucoseView: View {
                 .font(.system(size: 26, weight: .bold))
                 .fixedSize()
                 .foregroundColor(colorOfGlucose)
+                .foregroundColor(alarm == nil ? .primary : .loopRed)
                 image.padding(.bottom, 2)
 
                 if let eventualBG = eventualBG {

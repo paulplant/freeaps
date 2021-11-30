@@ -1,7 +1,7 @@
 import Foundation
 import Swinject
 
-protocol SettingsManager {
+protocol SettingsManager: AnyObject {
     var settings: FreeAPSSettings { get set }
     var preferences: Preferences { get }
 }
@@ -14,7 +14,7 @@ final class BaseSettingsManager: SettingsManager, Injectable {
     @Injected() var broadcaster: Broadcaster!
     @Injected() var storage: FileStorage!
 
-    var settings: FreeAPSSettings {
+    @SyncAccess var settings: FreeAPSSettings {
         didSet {
             if oldValue != settings {
                 save()

@@ -68,13 +68,28 @@ extension Home {
                 CurrentGlucoseView(
                     recentGlucose: $state.recentGlucose,
                     delta: $state.glucoseDelta,
+                    alarm: $state.alarm
                     units: $state.units,
                     eventualBG: $state.eventualBG,
                     currentISF: $state.isf
                 )
                 .onTapGesture {
-                    state.openCGM()
+                    if state.alarm == nil {
+                        state.openCGM()
+                    } else {
+                        state.showModal(for: .snooze)
+                    }
                 }
+                .onLongPressGesture {
+                    let impactHeavy = UIImpactFeedbackGenerator(style: .heavy)
+                    impactHeavy.impactOccurred()
+                    if state.alarm == nil {
+                        state.showModal(for: .snooze)
+                    } else {
+                        state.openCGM()
+                    }
+                }
+
                 Spacer()
                 PumpView(
                     reservoir: $state.reservoir,
@@ -86,11 +101,6 @@ extension Home {
                 .onTapGesture {
                     if state.pumpDisplayState != nil {
                         state.setupPump = true
-                    }
-                }
-                .popover(isPresented: $state.setupPump) {
-                    if let pumpManager = state.provider.apsManager.pumpManager {
-                        PumpConfig.PumpSettingsView(pumpManager: pumpManager, completionDelegate: state)
                     }
                 }
                 Spacer()

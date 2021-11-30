@@ -95,6 +95,9 @@ struct MainChartView: View {
         return formatter
     }
 
+    @Environment(\.horizontalSizeClass) var hSizeClass
+    @Environment(\.verticalSizeClass) var vSizeClass
+
     // MARK: - Views
 
     var body: some View {
@@ -103,6 +106,18 @@ struct MainChartView: View {
                 yGridView(fullSize: geo.size)
                 mainScrollView(fullSize: geo.size)
                 glucoseLabelsView(fullSize: geo.size)
+            }
+            .onChange(of: hSizeClass) { _ in
+                update(fullSize: geo.size)
+            }
+            .onChange(of: vSizeClass) { _ in
+                update(fullSize: geo.size)
+            }
+            .onReceive(
+                Foundation.NotificationCenter.default
+                    .publisher(for: UIDevice.orientationDidChangeNotification)
+            ) { _ in
+                update(fullSize: geo.size)
             }
         }
     }
