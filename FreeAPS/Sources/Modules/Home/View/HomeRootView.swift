@@ -68,10 +68,10 @@ extension Home {
                 CurrentGlucoseView(
                     recentGlucose: $state.recentGlucose,
                     delta: $state.glucoseDelta,
-                    alarm: $state.alarm
                     units: $state.units,
                     eventualBG: $state.eventualBG,
-                    currentISF: $state.isf
+                    currentISF: $state.isf,
+                    alarm: $state.alarm
                 )
                 .onTapGesture {
                     if state.alarm == nil {
