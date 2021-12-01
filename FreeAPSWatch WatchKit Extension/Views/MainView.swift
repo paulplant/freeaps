@@ -74,11 +74,11 @@ struct MainView: View {
                 CarbsView()
                     .environmentObject(state)
             } label: {
-                Image("carbs", bundle: nil)
+                Image("carbs1", bundle: nil)
                     .renderingMode(.template)
                     .resizable()
                     .frame(width: 24, height: 24)
-                    .foregroundColor(.loopGreen)
+                    .foregroundColor(.loopYellow)
             }
 
             NavigationLink(isActive: $state.isTempTargetViewActive) {
@@ -86,11 +86,11 @@ struct MainView: View {
                     .environmentObject(state)
             } label: {
                 VStack {
-                    Image("target", bundle: nil)
+                    Image("target1", bundle: nil)
                         .renderingMode(.template)
                         .resizable()
                         .frame(width: 24, height: 24)
-                        .foregroundColor(.loopYellow)
+                        .foregroundColor(.loopGreen)
                     if let until = state.tempTargets.compactMap(\.until).first, until > Date() {
                         Text(until, style: .timer).font(.system(size: 8))
                     }
