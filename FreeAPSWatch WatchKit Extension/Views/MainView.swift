@@ -65,16 +65,17 @@ struct MainView: View {
                 }
             }
             Spacer()
-            HStack (alignment: .firstTextBaseline) {
-                Text("IOB: " + iobFormatter.string(from: (state.iob ?? 0) as NSNumber)! + " U").font(.caption2)
-                    .scaledToFill()
-                    .minimumScaleFactor(0.5)
+            HStack {
+                Text(iobFormatter.string(from: (state.cob ?? 0) as NSNumber)!).font(.caption2)
+                Text("g").foregroundColor(.loopGreen)
                 Spacer()
-                Text("COB: " + iobFormatter.string(from: (state.cob ?? 0) as NSNumber)! + " g").font(.caption2)
-                    .scaledToFill()
-                    .minimumScaleFactor(0.5)
+                Text(iobFormatter.string(from: (state.iob ?? 0) as NSNumber)!).font(.caption2)
+                Text("U").foregroundColor(.insulin)
+
+                Spacer()
+                Spacer()
             }
-            Spacer()
+//            Spacer()
         }.padding()
     }
 
@@ -89,6 +90,17 @@ struct MainView: View {
                     .resizable()
                     .frame(width: 24, height: 24)
                     .foregroundColor(.loopYellow)
+            }
+
+            NavigationLink(isActive: $state.isBolusViewActive) {
+                BolusView()
+                    .environmentObject(state)
+            } label: {
+                Image("bolus", bundle: nil)
+                    .renderingMode(.template)
+                    .resizable()
+                    .frame(width: 24, height: 24)
+                    .foregroundColor(.insulin)
             }
 
             NavigationLink(isActive: $state.isTempTargetViewActive) {
@@ -106,17 +118,6 @@ struct MainView: View {
                     }
                 }
             }
-
-            NavigationLink(isActive: $state.isBolusViewActive) {
-                BolusView()
-                    .environmentObject(state)
-            } label: {
-                Image("bolus", bundle: nil)
-                    .renderingMode(.template)
-                    .resizable()
-                    .frame(width: 24, height: 24)
-                    .foregroundColor(.insulin)
-            }
         }
     }
 
@@ -132,7 +133,7 @@ struct MainView: View {
         if minAgo > 1440 {
             return "--"
         }
-        return "\(minAgo) " + NSLocalizedString("min ago", comment: "Minutes ago since last loop")
+        return "\(minAgo) " + NSLocalizedString("min", comment: "Minutes ago since last loop")
     }
 
     private var color: Color {
