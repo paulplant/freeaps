@@ -51,7 +51,8 @@ final class BaseWatchManager: NSObject, WatchManager, Injectable {
             self.state.trend = glucoseValues.trend
             self.state.delta = glucoseValues.delta
             self.state.glucoseDate = self.glucoseStorage.recent().last?.dateString
-            self.state.lastLoopDate = self.enactedSuggestion?.deliverAt
+            self.state.lastLoopDate = self.enactedSuggestion?.recieved == true ? self.enactedSuggestion?.deliverAt : self
+                .apsManager.lastLoopDate
             self.state.bolusIncrement = self.settingsManager.preferences.bolusIncrement
             self.state.maxCOB = self.settingsManager.preferences.maxCOB
             self.state.maxBolus = self.settingsManager.pumpSettings.maxBolus
