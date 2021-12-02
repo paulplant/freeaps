@@ -63,6 +63,7 @@ final class BaseWatchManager: NSObject, WatchManager, Injectable {
 
             self.state.iob = self.suggestion?.iob
             self.state.cob = self.suggestion?.cob
+            self.state.isf = self.suggestion?.isf
             self.state.tempTargets = self.tempTargetsStorage.presets()
                 .map { target -> TempTargetWatchPreset in
                     let untilDate = self.tempTargetsStorage.current().flatMap { currentTarget -> Date? in
