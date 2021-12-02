@@ -39,7 +39,7 @@ struct MainView: View {
             HStack(alignment: .lastTextBaseline) {
                 VStack(alignment: .leading, spacing: 0) {
                     HStack {
-                        Text(state.glucose).font(.largeTitle)
+                        Text(state.glucose).font(.largeTitle).foregroundColor(colorOfGlucose)
                             .scaledToFill()
                             .minimumScaleFactor(0.5)
                         Text(state.trend).foregroundColor(.gray)
@@ -51,7 +51,7 @@ struct MainView: View {
                 Spacer()
                 VStack(spacing: 0) {
                     HStack {
-                        Circle().stroke(color, lineWidth: 6).frame(width: 30, height: 30).padding(10)
+                        Circle().stroke(color, lineWidth: 6).frame(width: 30, height: 30).padding(5)
                     }
 
                     if state.lastLoopDate != nil {
@@ -69,30 +69,27 @@ struct MainView: View {
             Spacer()
             Spacer()
             HStack {
+                Text(iobFormatter.string(from: (state.cob ?? 0) as NSNumber)!).font(.caption2).fixedSize()
+                    .scaledToFill()
+                    .minimumScaleFactor(0.5)
+                Text("g").foregroundColor(.loopYellow).fixedSize()
+                    .scaledToFill()
+                    .minimumScaleFactor(0.5)
                 Spacer()
-                Text(iobFormatter.string(from: (state.cob ?? 0) as NSNumber)!).font(.caption2)
-//                    .scaledToFill()
-//                    .minimumScaleFactor(0.5)
-                Text("g").foregroundColor(.loopYellow)
-//                    .scaledToFill()
-//                    .minimumScaleFactor(0.5)
+                Text(iobFormatter.string(from: (state.iob ?? 0) as NSNumber)!).font(.caption2).fixedSize()
+                    .scaledToFill()
+                    .minimumScaleFactor(0.5)
+                Text("U").foregroundColor(.insulin).fixedSize()
+                    .scaledToFill()
+                    .minimumScaleFactor(0.5)
                 Spacer()
-                Text(iobFormatter.string(from: (state.iob ?? 0) as NSNumber)!).font(.caption2)
-//                    .scaledToFill()
-//                    .minimumScaleFactor(0.5)
-                Text("U").foregroundColor(.insulin)
-//                    .scaledToFill()
-//                    .minimumScaleFactor(0.5)
-                Spacer()
-                Text(iobFormatter.string(from: (state.isf ?? 0) as NSNumber)!).font(.caption2)
-//                    .scaledToFill()
-//                    .minimumScaleFactor(0.5)
-                Text("isf").foregroundColor(.loopGreen)
-//                    .scaledToFill()
-//                    .minimumScaleFactor(0.5)
-                Spacer()
+                Text(iobFormatter.string(from: (state.isf ?? 0) as NSNumber)!).font(.caption2).fixedSize()
+                    .scaledToFill()
+                    .minimumScaleFactor(0.5)
+                Text("isf").foregroundColor(.loopGreen).fixedSize()
+                    .scaledToFill()
+                    .minimumScaleFactor(0.5)
             }
-//            Spacer()
         }.padding()
     }
 
@@ -108,7 +105,6 @@ struct MainView: View {
                     .frame(width: 24, height: 24)
                     .foregroundColor(.loopYellow)
             }
-
             NavigationLink(isActive: $state.isBolusViewActive) {
                 BolusView()
                     .environmentObject(state)
@@ -119,7 +115,6 @@ struct MainView: View {
                     .frame(width: 24, height: 24)
                     .foregroundColor(.insulin)
             }
-
             NavigationLink(isActive: $state.isTempTargetViewActive) {
                 TempTargetsView()
                     .environmentObject(state)
@@ -135,7 +130,7 @@ struct MainView: View {
                     }
                 }
             }
-        }
+        } // .padding(.horizontal, 10)
     }
 
     private var iobFormatter: NumberFormatter {
@@ -151,6 +146,22 @@ struct MainView: View {
             return "--"
         }
         return "\(minAgo) " + NSLocalizedString("min", comment: "Minutes ago since last loop")
+    }
+
+    private var colorOfGlucose: Color {
+        guard let recentBG = Int(state.glucose)
+        else { return .loopYellow }
+
+        switch recentBG {
+        case 55 ... 74:
+            return .loopOrange
+        case 75 ... 140:
+            return .loopGreen
+        case 141 ... 180:
+            return .loopYellow
+        default:
+            return .loopRed
+        }
     }
 
     private var color: Color {
@@ -173,10 +184,12 @@ struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         let state = WatchStateModel()
 
-        state.glucose = "15,7"
-        state.delta = "+0.39"
-        state.iob = 10.38
-        state.cob = 112
+        state.glucose = "266"
+        state.delta = "+55"
+        state.iob = 9.9
+        state.cob = 88
+        state.isf = 100
+        state.eventualBG = "232"
 
         state.lastLoopDate = Date().addingTimeInterval(-200)
 
