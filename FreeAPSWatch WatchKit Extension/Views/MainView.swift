@@ -54,11 +54,16 @@ struct MainView: View {
                         Text(state.glucose).font(.largeTitle).foregroundColor(colorOfGlucose)
                             .scaledToFill()
                             .minimumScaleFactor(0.5)
-                        Text(state.trend).foregroundColor(.gray)
                     }
-                    Text(state.delta).font(.caption2).foregroundColor(.gray)
-                        .scaledToFill()
-                        .minimumScaleFactor(0.5)
+                    HStack {
+                        Text(state.delta).font(.caption2).foregroundColor(.gray)
+                            .scaledToFill()
+                            .minimumScaleFactor(0.5)
+                        Text(state.trend).foregroundColor(.gray)
+                        Text(state.eventualBG).font(.caption2)
+                            .scaledToFill()
+                            .minimumScaleFactor(0.5)
+                    }
                 }
                 Spacer()
                 VStack(spacing: 0) {
@@ -70,6 +75,7 @@ struct MainView: View {
                         Text(timeString).font(.caption2).foregroundColor(.gray)
                             .scaledToFill()
                             .minimumScaleFactor(0.5)
+                            .foregroundColor(.secondary)
                     } else {
                         Text("--").font(.caption2).foregroundColor(.gray)
                             .scaledToFill()
@@ -106,7 +112,7 @@ struct MainView: View {
     }
 
     var buttons: some View {
-        HStack {
+        HStack(alignment: .center) {
             NavigationLink(isActive: $state.isCarbsViewActive) {
                 CarbsView()
                     .environmentObject(state)
@@ -138,7 +144,9 @@ struct MainView: View {
                         .frame(width: 24, height: 24)
                         .foregroundColor(.loopGreen)
                     if let until = state.tempTargets.compactMap(\.until).first, until > Date() {
-                        Text(until, style: .timer).font(.system(size: 8))
+                        Text(until, style: .timer)
+                            .scaledToFill()
+                            .font(.system(size: 8))
                     }
                 }
             }
@@ -204,10 +212,13 @@ struct ContentView_Previews: PreviewProvider {
         state.eventualBG = "232"
 
         state.lastLoopDate = Date().addingTimeInterval(-200)
+        state
+            .tempTargets =
+            [TempTargetWatchPreset(name: "Test", id: "test", description: "", until: Date().addingTimeInterval(3600 * 3))]
 
         return Group {
             MainView()
-            MainView().previewDevice("Apple Watch Series 5 - 40mm")
+            MainView().previewDevice("Apple Watch Series 7 - 41mm")
         }.environmentObject(state)
     }
 }

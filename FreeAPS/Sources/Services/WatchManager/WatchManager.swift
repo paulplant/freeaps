@@ -65,6 +65,9 @@ final class BaseWatchManager: NSObject, WatchManager, Injectable {
             self.state.iob = self.suggestion?.iob
             self.state.cob = self.suggestion?.cob
             self.state.isf = self.suggestion?.isf
+//            let glucoseEventual = self.glucoseText()
+//            self.state.eventualBG = glucoseEventual.glucose
+//          self.state.eventualBG = self.suggestion?.eventualBG
             self.state.tempTargets = self.tempTargetsStorage.presets()
                 .map { target -> TempTargetWatchPreset in
                     let untilDate = self.tempTargetsStorage.current().flatMap { currentTarget -> Date? in
@@ -80,6 +83,7 @@ final class BaseWatchManager: NSObject, WatchManager, Injectable {
                     )
                 }
             self.state.bolusAfterCarbs = !self.settingsManager.settings.skipBolusScreenAfterCarbs
+            self.state.eventualBG = self.eventualBGString()
 
             self.sendState()
         }
@@ -143,6 +147,16 @@ final class BaseWatchManager: NSObject, WatchManager, Injectable {
         return description
     }
 
+    private func eventualBGString() -> String? {
+        guard let eventualBG = suggestion?.eventualBG else {
+            return nil
+        }
+        let units = settingsManager.settings.units
+        return eventualFormatter.string(
+            from: (units == .mmolL ? eventualBG.asMmolL : Decimal(eventualBG)) as NSNumber
+        )!
+    }
+
     private var glucoseFormatter: NumberFormatter {
         let formatter = NumberFormatter()
         formatter.numberStyle = .decimal
@@ -152,6 +166,13 @@ final class BaseWatchManager: NSObject, WatchManager, Injectable {
             formatter.maximumFractionDigits = 1
         }
         formatter.roundingMode = .halfUp
+        return formatter
+    }
+
+    private var eventualFormatter: NumberFormatter {
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .decimal
+        formatter.maximumFractionDigits = 2
         return formatter
     }
 

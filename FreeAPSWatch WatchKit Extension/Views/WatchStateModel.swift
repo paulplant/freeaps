@@ -6,9 +6,10 @@ import WatchConnectivity
 class WatchStateModel: NSObject, ObservableObject {
     var session: WCSession
 
-    @Published var glucose = "00"
+    @Published var glucose = "--"
     @Published var trend = "→"
-    @Published var delta = "+00"
+    @Published var delta = "+0"
+    @Published var eventualBG = "--"
     @Published var lastLoopDate: Date?
     @Published var glucoseDate: Date?
     @Published var bolusIncrement: Decimal?
@@ -136,6 +137,7 @@ class WatchStateModel: NSObject, ObservableObject {
         tempTargets = state.tempTargets
         bolusAfterCarbs = state.bolusAfterCarbs ?? true
         lastUpdate = Date()
+        eventualBG = state.eventualBG ?? ""
     }
 }
 
