@@ -36,43 +36,60 @@ struct MainView: View {
 
     var header: some View {
         VStack {
-            HStack(alignment: .top) {
-                VStack(alignment: .leading) {
+            HStack(alignment: .lastTextBaseline) {
+                VStack(alignment: .leading, spacing: 0) {
                     HStack {
                         Text(state.glucose).font(.largeTitle)
                             .scaledToFill()
                             .minimumScaleFactor(0.5)
-                        Text(state.trend)
+                        Text(state.trend).foregroundColor(.gray)
                     }
-                    Text(state.delta).font(.caption2)
+                    Text(state.delta).font(.caption2).foregroundColor(.gray)
                         .scaledToFill()
                         .minimumScaleFactor(0.5)
                 }
                 Spacer()
-
                 VStack(spacing: 0) {
                     HStack {
                         Circle().stroke(color, lineWidth: 6).frame(width: 30, height: 30).padding(10)
                     }
 
                     if state.lastLoopDate != nil {
-                        Text(timeString).font(.caption2)
+                        Text(timeString).font(.caption2).foregroundColor(.gray)
                             .scaledToFill()
                             .minimumScaleFactor(0.5)
                     } else {
-                        Text("--").font(.caption2)
+                        Text("--").font(.caption2).foregroundColor(.gray)
+                            .scaledToFill()
+                            .minimumScaleFactor(0.5)
                     }
                 }
             }
             Spacer()
+            Spacer()
+            Spacer()
             HStack {
+                Spacer()
                 Text(iobFormatter.string(from: (state.cob ?? 0) as NSNumber)!).font(.caption2)
-                Text("g").foregroundColor(.loopGreen)
+//                    .scaledToFill()
+//                    .minimumScaleFactor(0.5)
+                Text("g").foregroundColor(.loopYellow)
+//                    .scaledToFill()
+//                    .minimumScaleFactor(0.5)
                 Spacer()
                 Text(iobFormatter.string(from: (state.iob ?? 0) as NSNumber)!).font(.caption2)
+//                    .scaledToFill()
+//                    .minimumScaleFactor(0.5)
                 Text("U").foregroundColor(.insulin)
-
+//                    .scaledToFill()
+//                    .minimumScaleFactor(0.5)
                 Spacer()
+                Text(iobFormatter.string(from: (state.isf ?? 0) as NSNumber)!).font(.caption2)
+//                    .scaledToFill()
+//                    .minimumScaleFactor(0.5)
+                Text("isf").foregroundColor(.loopGreen)
+//                    .scaledToFill()
+//                    .minimumScaleFactor(0.5)
                 Spacer()
             }
 //            Spacer()
