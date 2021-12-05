@@ -836,6 +836,9 @@ Enact a temp Basal or a temp target */
 /* */
 "Also add source info" = "Also add source info";
 
+/* */
+"Backfill glucose" = "Backfill glucose";
+
 
 /* Headers for settings ------------------- */
 

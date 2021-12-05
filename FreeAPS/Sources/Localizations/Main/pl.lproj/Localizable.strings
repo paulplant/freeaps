@@ -839,6 +839,9 @@ Połączono z Nightscout!";
 "Also add source info" = "Also add source info";
 
 
+/* */
+"Backfill glucose" = "Backfill glucose";
+
 
 /* Headers for settings ------------------- */
 

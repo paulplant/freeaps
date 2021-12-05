@@ -840,6 +840,19 @@ Enact a temp Basal or a temp target */
 
 "To prevent LOW required %d g of carbs" = "To prevent LOW required %d g of carbs";
 
+/* */
+"FreeAPS X not active" = "FreeAPS X not active";
+
+/* */
+"Last loop was more then %d min ago" = "Last loop was more then %d min ago";
+
+/* Glucose badge */
+"Show glucose on the app badge" = "Mostra il glucosio sul badge dell'app";
+
+/* */
+"Backfill glucose" = "Backfill glucose";
+
+
 /* Headers for settings ------------------- */
 
 
