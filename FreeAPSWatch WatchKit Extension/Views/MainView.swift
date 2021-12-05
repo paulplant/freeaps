@@ -44,6 +44,7 @@ struct MainView: View {
                         Text(state.glucose).font(.largeTitle).foregroundColor(colorOfGlucose)
                             .scaledToFill()
                             .minimumScaleFactor(0.5)
+                            .padding(.top, 4)
                         if state.timerDate.timeIntervalSince(state.lastUpdate) > 10 {
                             withAnimation {
                                 BlinkingView(count: 8, size: 3)
