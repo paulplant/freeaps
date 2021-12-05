@@ -32,7 +32,7 @@ struct MainView: View {
             }
         }
         .frame(maxHeight: .infinity)
-        .padding()
+        .padding(.horizontal)
         .onReceive(state.timer) { date in
             state.timerDate = date
             state.requestState()
@@ -46,33 +46,32 @@ struct MainView: View {
         VStack {
             HStack(alignment: .lastTextBaseline) {
                 VStack(alignment: .leading, spacing: 0) {
-                    HStack {
+                    HStack(alignment: .center) {
                         Text(state.glucose).font(.largeTitle).foregroundColor(colorOfGlucose)
                             .scaledToFill()
                             .minimumScaleFactor(0.5)
-                            .padding(.top, 4)
+                        // .padding(.top, 2)
                         if state.timerDate.timeIntervalSince(state.lastUpdate) > 10 {
                             withAnimation {
                                 BlinkingView(count: 8, size: 3)
-                                    .frame(width: 14, height: 14)
-                                // .padding(2)
+                                    .frame(width: 25, height: 18)
                             }
                         }
                     }
                     HStack {
-                        Text(state.delta).font(.caption2).foregroundColor(.gray)
+                        Text(state.delta).font(.title3).foregroundColor(.gray)
                             .scaledToFill()
                             .minimumScaleFactor(0.5)
                         Text(state.trend).foregroundColor(.gray)
-                        Text(state.eventualBG).font(.caption2)
+                        Text(state.eventualBG).font(.title3)
                             .scaledToFill()
                             .minimumScaleFactor(0.5)
                     }
                 }
                 Spacer()
-                VStack(spacing: 0) {
+                VStack(spacing: 2) {
                     HStack {
-                        Circle().stroke(color, lineWidth: 6).frame(width: 30, height: 30).padding(5)
+                        Circle().stroke(color, lineWidth: 6).frame(width: 30, height: 30).padding()
                     }
 
                     if state.lastLoopDate != nil {
@@ -87,74 +86,75 @@ struct MainView: View {
                     }
                 }
             }
+        } // .padding(.bottom)
+    }
+
+    var buttons: some View {
+        VStack {
             Spacer()
-            Spacer()
-            Spacer()
-            HStack {
-                Text(iobFormatter.string(from: (state.cob ?? 0) as NSNumber)!).font(.caption2).fixedSize()
+            HStack(alignment: .lastTextBaseline) {
+                Text(iobFormatter.string(from: (state.cob ?? 0) as NSNumber)!).font(.title3).fixedSize()
                     .scaledToFill()
                     .minimumScaleFactor(0.5)
                 Text("g").foregroundColor(.loopYellow).fixedSize()
                     .scaledToFill()
                     .minimumScaleFactor(0.5)
                 Spacer()
-                Text(iobFormatter.string(from: (state.iob ?? 0) as NSNumber)!).font(.caption2).fixedSize()
+                Text(iobFormatter.string(from: (state.iob ?? 0) as NSNumber)!).font(.title3).fixedSize()
                     .scaledToFill()
                     .minimumScaleFactor(0.5)
                 Text("U").foregroundColor(.insulin).fixedSize()
                     .scaledToFill()
                     .minimumScaleFactor(0.5)
                 Spacer()
-                Text(iobFormatter.string(from: (state.isf ?? 0) as NSNumber)!).font(.caption2).fixedSize()
+                Text(iobFormatter.string(from: (state.isf ?? 0) as NSNumber)!).font(.title3).fixedSize()
                     .scaledToFill()
                     .minimumScaleFactor(0.5)
                 Text("isf").foregroundColor(.loopGreen).fixedSize()
                     .scaledToFill()
                     .minimumScaleFactor(0.5)
-            }
-        }.padding()
-    }
-
-    var buttons: some View {
-        HStack(alignment: .center) {
-            NavigationLink(isActive: $state.isCarbsViewActive) {
-                CarbsView()
-                    .environmentObject(state)
-            } label: {
-                Image("carbs1", bundle: nil)
-                    .renderingMode(.template)
-                    .resizable()
-                    .frame(width: 24, height: 24)
-                    .foregroundColor(.loopYellow)
-            }
-            NavigationLink(isActive: $state.isBolusViewActive) {
-                BolusView()
-                    .environmentObject(state)
-            } label: {
-                Image("bolus", bundle: nil)
-                    .renderingMode(.template)
-                    .resizable()
-                    .frame(width: 24, height: 24)
-                    .foregroundColor(.insulin)
-            }
-            NavigationLink(isActive: $state.isTempTargetViewActive) {
-                TempTargetsView()
-                    .environmentObject(state)
-            } label: {
-                VStack {
-                    Image("target1", bundle: nil)
+            }.padding(.bottom)
+            Spacer()
+            HStack(alignment: .bottom) {
+                NavigationLink(isActive: $state.isCarbsViewActive) {
+                    CarbsView()
+                        .environmentObject(state)
+                } label: {
+                    Image("carbs1", bundle: nil)
                         .renderingMode(.template)
                         .resizable()
                         .frame(width: 24, height: 24)
-                        .foregroundColor(.loopGreen)
-                    if let until = state.tempTargets.compactMap(\.until).first, until > Date() {
-                        Text(until, style: .timer)
-                            .scaledToFill()
-                            .font(.system(size: 8))
+                        .foregroundColor(.loopYellow)
+                }
+                NavigationLink(isActive: $state.isBolusViewActive) {
+                    BolusView()
+                        .environmentObject(state)
+                } label: {
+                    Image("bolus", bundle: nil)
+                        .renderingMode(.template)
+                        .resizable()
+                        .frame(width: 24, height: 24)
+                        .foregroundColor(.insulin)
+                }
+                NavigationLink(isActive: $state.isTempTargetViewActive) {
+                    TempTargetsView()
+                        .environmentObject(state)
+                } label: {
+                    VStack {
+                        Image("target1", bundle: nil)
+                            .renderingMode(.template)
+                            .resizable()
+                            .frame(width: 24, height: 24)
+                            .foregroundColor(.loopGreen)
+                        if let until = state.tempTargets.compactMap(\.until).first, until > Date() {
+                            Text(until, style: .timer)
+                                .scaledToFill()
+                                .font(.system(size: 8))
+                        }
                     }
                 }
             }
-        } // .padding(.horizontal, 10)
+        }
     }
 
     private var iobFormatter: NumberFormatter {
@@ -222,6 +222,7 @@ struct ContentView_Previews: PreviewProvider {
 
         return Group {
             MainView()
+            MainView().previewDevice("Apple Watch Series 7 - 41mm")
             MainView().previewDevice("Apple Watch Series 7 - 41mm")
         }.environmentObject(state)
     }
