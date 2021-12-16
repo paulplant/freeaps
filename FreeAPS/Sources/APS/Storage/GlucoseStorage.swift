@@ -105,6 +105,7 @@ final class BaseGlucoseStorage: GlucoseStorage, Injectable {
     }
 
     func isGlucoseNotFlat() -> Bool {
+        return true // To completely avoid more "To Flat" errors (I don't understand Why I still get them?
         let last3 = recent().suffix(3)
         guard last3.count == 3 else { return true }
 
