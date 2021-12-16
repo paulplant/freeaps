@@ -24,7 +24,7 @@ struct TagCloudView: View {
         return ZStack(alignment: .topLeading) {
             ForEach(self.tags, id: \.self) { tag in
                 self.item(for: tag)
-                    .padding([.horizontal, .vertical], 4)
+                    .padding([.horizontal, .vertical], 2)
                     .alignmentGuide(.leading, computeValue: { d in
                         if abs(width - d.width) > g.size.width
                         {
@@ -52,10 +52,10 @@ struct TagCloudView: View {
 
     private func item(for text: String) -> some View {
         Text(text)
-            .padding(.all, 5)
-            .font(.body)
-            .background(Color.insulin)
-            .foregroundColor(Color.white)
+            .padding(.all, 2)
+            .font(.caption)
+            .background(Color.loopGreen)
+            .foregroundColor(Color.black)
             .cornerRadius(5)
     }
 
