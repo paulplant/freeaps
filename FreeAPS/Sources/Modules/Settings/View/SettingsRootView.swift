@@ -1,3 +1,4 @@
+import HealthKit
 import SwiftUI
 import Swinject
 
@@ -20,7 +21,9 @@ extension Settings {
 
                 Section(header: Text("Services")) {
                     Text("Nightscout").navigationLink(to: .nighscoutConfig, from: self)
-                    Text("Apple Health").navigationLink(to: .healthkit, from: self)
+                    if HKHealthStore.isHealthDataAvailable() {
+                        Text("Apple Health").navigationLink(to: .healthkit, from: self)
+                    }
                     Text("Notifications").navigationLink(to: .notificationsConfig, from: self)
                 }
 
@@ -84,12 +87,12 @@ extension Settings {
                         }
 
                         Group {
-                            Text("HealthKit")
-                                .navigationLink(to: .configEditor(file: OpenAPS.HealthKit.downloadedGlucose), from: self)
                             Text("Target presets")
                                 .navigationLink(to: .configEditor(file: OpenAPS.FreeAPS.tempTargetsPresets), from: self)
                             Text("Calibrations")
                                 .navigationLink(to: .configEditor(file: OpenAPS.FreeAPS.calibrations), from: self)
+                            Text("Current Temp")
+                                .navigationLink(to: .configEditor(file: OpenAPS.Monitor.tempBasal), from: self)
                             Text("Middleware")
                                 .navigationLink(to: .configEditor(file: OpenAPS.Middleware.determineBasal), from: self)
                             Text("Edit settings json")
