@@ -19,7 +19,7 @@ typealias GlucoseYRange = (minValue: Int, minY: CGFloat, maxValue: Int, maxY: CG
 struct MainChartView: View {
     private enum Config {
         static let endID = "End"
-        static let screenHours = 6
+        static let screenHours = 5
         static let basalHeight: CGFloat = 80
         static let topYPadding: CGFloat = 20
         static let bottomYPadding: CGFloat = 50
@@ -27,6 +27,7 @@ struct MainChartView: View {
         static let maxGlucose = 250
         static let minGlucose = 50
         static let yLinesCount = 5
+        static let glucoseScale: CGFloat = 1.5 // default 2
         static let bolusSize: CGFloat = 8
         static let bolusScale: CGFloat = 2.5
         static let carbsSize: CGFloat = 10
@@ -420,7 +421,12 @@ extension MainChartView {
         calculationQueue.async {
             let dots = glucose.concurrentMap { value -> CGRect in
                 let position = glucoseToCoordinate(value, fullSize: fullSize)
-                return CGRect(x: position.x - 2, y: position.y - 2, width: 4, height: 4)
+                return CGRect(
+                    x: position.x - (1 * Config.glucoseScale),
+                    y: position.y - (1 * Config.glucoseScale),
+                    width: 2 * Config.glucoseScale,
+                    height: 2 * Config.glucoseScale
+                )
             }
 
             let range = self.getGlucoseYRange(fullSize: fullSize)
