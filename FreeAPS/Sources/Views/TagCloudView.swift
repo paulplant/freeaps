@@ -50,14 +50,28 @@ struct TagCloudView: View {
         }.background(viewHeightReader($totalHeight))
     }
 
-    private func item(for text: String) -> some View {
-        Text(text)
+    private func item(for textTag: String) -> some View {
+        var colorOfTag: Color {
+            switch textTag {
+            case "autoISF":
+                return .loopYellow
+            case "Parabolic Fit":
+                return .loopRed
+            case "Autosense":
+                return .loopGreen
+            case "Standard":
+                return .zt
+            default:
+                return .basal
+            }
+        }
+        return ZStack { Text(textTag)
             .padding(.vertical, 2)
             .padding(.horizontal, 4)
             .font(.caption)
-            .background(Color.basal.opacity(0.8))
+            .background(colorOfTag.opacity(0.8))
             .foregroundColor(Color.white)
-            .cornerRadius(5)
+            .cornerRadius(5) }
     }
 
     private func viewHeightReader(_ binding: Binding<CGFloat>) -> some View {
