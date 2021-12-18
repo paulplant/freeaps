@@ -52,10 +52,11 @@ struct TagCloudView: View {
 
     private func item(for text: String) -> some View {
         Text(text)
-            .padding(.all, 2)
+            .padding(.vertical, 2)
+            .padding(.horizontal, 4)
             .font(.caption)
-            .background(Color.loopGreen)
-            .foregroundColor(Color.black)
+            .background(Color.basal.opacity(0.8))
+            .foregroundColor(Color.white)
             .cornerRadius(5)
     }
 
