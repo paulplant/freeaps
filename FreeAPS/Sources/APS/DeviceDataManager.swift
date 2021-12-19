@@ -18,7 +18,7 @@ protocol DeviceDataManager: GlucoseSource {
     var errorSubject: PassthroughSubject<Error, Never> { get }
     var pumpName: CurrentValueSubject<String, Never> { get }
     var pumpExpiresAtDate: CurrentValueSubject<Date?, Never> { get }
-    func heartbeat(date: Date, force: Bool)
+    func heartbeat(date: Date)
     func createBolusProgressReporter() -> DoseProgressReporter?
 }
 
@@ -49,6 +49,8 @@ final class BaseDeviceDataManager: DeviceDataManager, Injectable {
     let bolusTrigger = PassthroughSubject<Bool, Never>()
     let errorSubject = PassthroughSubject<Error, Never>()
     let pumpNewStatus = PassthroughSubject<Void, Never>()
+    @SyncAccess private var pumpUpdateCancellable: AnyCancellable?
+    private var pumpUpdatePromise: Future<Bool, Never>.Promise?
 
     var pumpManager: PumpManagerUI? {
         didSet {
@@ -96,30 +98,15 @@ final class BaseDeviceDataManager: DeviceDataManager, Injectable {
         pumpManager?.createBolusProgressReporter(reportingOn: processQueue)
     }
 
-    func heartbeat(date: Date, force: Bool) {
+    func heartbeat(date: Date) {
+        guard pumpUpdateCancellable == nil else {
+            warning(.deviceManager, "Pump updating already in progress")
+            return
+        }
+
+        func update(_: Future<Bool, Never>.Promise?) {}
+
         processQueue.safeSync {
-            if force {
-                updatePumpData()
-                return
-            }
-
-            var updateInterval: TimeInterval = 1.0 * 60
-
-            switch date.timeIntervalSince(lastHeartBeatTime) {
-            case let interval where interval > 10.minutes.timeInterval:
-                break
-            case let interval where interval > 5.minutes.timeInterval:
-                updateInterval = 1.minutes.timeInterval
-            default:
-                break
-            }
-
-            let interval = date.timeIntervalSince(lastHeartBeatTime)
-            guard interval >= updateInterval else {
-                debug(.deviceManager, "Last hearbeat \(interval / 60) min ago, skip updating the pump data")
-                return
-            }
-
             lastHeartBeatTime = date
             updatePumpData()
         }
@@ -128,14 +115,34 @@ final class BaseDeviceDataManager: DeviceDataManager, Injectable {
     private func updatePumpData() {
         guard let pumpManager = pumpManager else {
             debug(.deviceManager, "Pump is not set, skip updating")
+            updateUpdateFinished(false)
             return
         }
 
         debug(.deviceManager, "Start updating the pump data")
-
-        pumpManager.ensureCurrentPumpData {
-            debug(.deviceManager, "Pump Data updated")
+        pumpUpdateCancellable = Future<Bool, Never> { [unowned self] promise in
+            pumpUpdatePromise = promise
+            debug(.deviceManager, "Waiting for pump update and loop recommendation")
+            processQueue.async {
+                pumpManager.ensureCurrentPumpData {
+                    debug(.deviceManager, "Pump data updated.")
+                }
+            }
         }
+        .timeout(60, scheduler: processQueue)
+        .replaceError(with: false)
+        .replaceEmpty(with: false)
+        .sink(receiveValue: updateUpdateFinished)
+    }
+
+    private func updateUpdateFinished(_ recommendsLoop: Bool) {
+        pumpUpdateCancellable = nil
+        pumpUpdatePromise = nil
+        if !recommendsLoop {
+            warning(.deviceManager, "Loop recommendation time out or got error. Starting loop right now.")
+        }
+
+        self.recommendsLoop.send()
     }
 
     private func pumpManagerFromRawValue(_ rawValue: [String: Any]) -> PumpManagerUI? {
@@ -237,7 +244,7 @@ extension BaseDeviceDataManager: PumpManagerDelegate {
     }
 
     func pumpManagerBLEHeartbeatDidFire(_: PumpManager) {
-        debug(.deviceManager, "Pump Heartbeat")
+        debug(.deviceManager, "Pump Heartbeat: do nothing. Pump connection is OK")
     }
 
     func pumpManagerMustProvideBLEHeartbeat(_: PumpManager) -> Bool {
@@ -334,8 +341,12 @@ extension BaseDeviceDataManager: PumpManagerDelegate {
 
     func pumpManagerRecommendsLoop(_: PumpManager) {
         dispatchPrecondition(condition: .onQueue(processQueue))
-        debug(.deviceManager, "Recomends loop")
-        recommendsLoop.send()
+        debug(.deviceManager, "Pump recommends loop")
+        guard let promise = pumpUpdatePromise else {
+            warning(.deviceManager, "We do not waiting for loop recommendation at this time.")
+            return
+        }
+        promise(.success(true))
     }
 
     func startDateToFilterNewPumpEvents(for _: PumpManager) -> Date {
