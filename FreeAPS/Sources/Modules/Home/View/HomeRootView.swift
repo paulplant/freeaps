@@ -58,7 +58,12 @@ extension Home {
         var cobIobView: some View {
             VStack(alignment: .leading, spacing: 12) {
                 HStack {
-                    Text("IOB").font(.caption2).foregroundColor(.secondary)
+//                    Text("IOB").font(.caption2).foregroundColor(.secondary)
+                    Image("bolus1")
+                        .renderingMode(.template)
+                        .resizable()
+                        .frame(width: 12, height: 12)
+                        .foregroundColor(.insulin)
                     Text(
                         (numberFormatter.string(from: (state.suggestion?.iob ?? 0) as NSNumber) ?? "0") +
                             NSLocalizedString(" U", comment: "Insulin unit")
@@ -66,7 +71,12 @@ extension Home {
                     .font(.system(size: 12, weight: .bold))
                 }
                 HStack {
-                    Text("COB").font(.caption2).foregroundColor(.secondary)
+//                    Text("COB").font(.caption2).foregroundColor(.secondary)
+                    Image("premeal")
+                        .renderingMode(.template)
+                        .resizable()
+                        .frame(width: 12, height: 12)
+                        .foregroundColor(.loopYellow)
                     Text(
                         (numberFormatter.string(from: (state.suggestion?.cob ?? 0) as NSNumber) ?? "0") +
                             NSLocalizedString(" g", comment: "gram of carbs")
@@ -81,6 +91,8 @@ extension Home {
                 recentGlucose: $state.recentGlucose,
                 delta: $state.glucoseDelta,
                 units: $state.units,
+                eventualBG: $state.eventualBG,
+                currentISF: $state.isf,
                 alarm: $state.alarm
             )
             .onTapGesture {
@@ -238,7 +250,6 @@ extension Home {
                     Text("UAM")
                         .font(.system(size: 12, weight: .bold)).foregroundColor(.uam)
                 }
-
 //                if let eventualBG = state.eventualBG {
 //                    Text(
 //                        "⇢ " + numberFormatter.string(
@@ -353,8 +364,8 @@ extension Home {
                     header(geo)
                     infoPanal
                     mainChart
-                    legendPanal
-                        .background(Color.secondary.opacity(0.05))
+//                    legendPanal
+//                        .background(Color.secondary.opacity(0.05))
                     Divider().background(Color.gray) // Added 29/4
                     bottomPanel(geo)
                 }
