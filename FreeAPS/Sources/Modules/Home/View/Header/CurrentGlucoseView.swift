@@ -82,7 +82,7 @@ struct CurrentGlucoseView: View {
 
     var body: some View {
         VStack(alignment: .center, spacing: 7) {
-            HStack(alignment: .center, spacing: 4) {
+            HStack(alignment: .lastTextBaseline, spacing: 4) {
                 Text(
                     recentGlucose?.glucose
                         .map {
@@ -90,7 +90,7 @@ struct CurrentGlucoseView: View {
                                 .string(from: Double(units == .mmolL ? $0.asMmolL : Decimal($0)) as NSNumber)! }
                         ?? "--"
                 )
-                .font(.system(size: 26, weight: .bold))
+                .font(.system(size: 32, weight: .bold))
                 .fixedSize()
                 // .foregroundColor(colorOfGlucose)
                 .foregroundColor(alarm == nil ? colorOfGlucose : .loopRed)

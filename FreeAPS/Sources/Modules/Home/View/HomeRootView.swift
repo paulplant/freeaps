@@ -362,11 +362,12 @@ extension Home {
             GeometryReader { geo in
                 VStack(spacing: 0) {
                     header(geo)
+                    Divider().background(Color.gray)
                     infoPanal
                     mainChart
 //                    legendPanal
 //                        .background(Color.secondary.opacity(0.05))
-                    Divider().background(Color.gray) // Added 29/4
+                    Divider().background(Color.gray)
                     bottomPanel(geo)
                 }
                 .edgesIgnoringSafeArea(.vertical)
