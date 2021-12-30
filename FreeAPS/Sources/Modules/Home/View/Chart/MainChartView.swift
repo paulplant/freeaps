@@ -19,19 +19,18 @@ typealias GlucoseYRange = (minValue: Int, minY: CGFloat, maxValue: Int, maxY: CG
 struct MainChartView: View {
     private enum Config {
         static let endID = "End"
-        static let screenHours = 5
-        static let basalHeight: CGFloat = 80
+        static let screenHours = 7
+        static let basalHeight: CGFloat = 150
         static let topYPadding: CGFloat = 20
         static let bottomYPadding: CGFloat = 50
         static let minAdditionalWidth: CGFloat = 150
-        static let maxGlucose = 450
-        static let minGlucose = 70
-        static let yLinesCount = 5
-        static let glucoseScale: CGFloat = 1.5 // default 2
+        static let maxGlucose = 200
+        static let minGlucose = 50
+        static let yLinesCount = 3
         static let bolusSize: CGFloat = 8
-        static let bolusScale: CGFloat = 2.5
+        static let bolusScale: CGFloat = 3.5
         static let carbsSize: CGFloat = 10
-        static let carbsScale: CGFloat = 0.3
+        static let carbsScale: CGFloat = 0.5
     }
 
     @Binding var glucose: [BloodGlucose]
@@ -184,6 +183,7 @@ struct MainChartView: View {
             regularBasalPath.stroke(Color.insulin, style: StrokeStyle(lineWidth: 0.7, dash: [4]))
             suspensionsPath.stroke(Color.loopGray.opacity(0.7), style: StrokeStyle(lineWidth: 0.7)).scaleEffect(x: 1, y: -1)
             suspensionsPath.fill(Color.loopGray.opacity(0.2)).scaleEffect(x: 1, y: -1)
+            regularBasalPath.stroke(Color.basal, style: StrokeStyle(lineWidth: 1, dash: [3]))
         }
         .scaleEffect(x: 1, y: -1)
         .frame(width: fullGlucoseWidth(viewWidth: fullSize.width) + additionalWidth(viewWidth: fullSize.width))
@@ -871,10 +871,10 @@ extension MainChartView {
             minValue = min(minValue, minTargetValue)
         }
 
-        if minValue == maxValue {
-            minValue = Config.minGlucose
-            maxValue = Config.maxGlucose
-        }
+        // if minValue == maxValue {
+        minValue = Config.minGlucose
+        maxValue = Config.maxGlucose
+        // }
 
         return (min: minValue, max: maxValue)
     }

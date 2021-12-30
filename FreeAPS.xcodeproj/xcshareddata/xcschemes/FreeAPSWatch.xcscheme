@@ -58,7 +58,7 @@
       <RemoteRunnable
          runnableDebuggingMode = "2"
          BundleIdentifier = "com.apple.Carousel"
-         RemotePath = "/FreeAPS-X">
+         RemotePath = "/FreeAPS X">
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "38E8751B27554D5500975559"
@@ -77,7 +77,7 @@
       <RemoteRunnable
          runnableDebuggingMode = "2"
          BundleIdentifier = "com.apple.Carousel"
-         RemotePath = "/FreeAPS-X">
+         RemotePath = "/FreeAPS X">
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "38E8751B27554D5500975559"
