@@ -31,7 +31,7 @@ extension Bolus {
                             Spacer()
                             Text(
                                 formatter
-                                    .string(from: state.inslinRequired as NSNumber)! +
+                                    .string(from: state.insulinRequired as NSNumber)! +
                                     NSLocalizedString(" U", comment: "Insulin unit")
                             ).foregroundColor(.secondary)
                         }.contentShape(Rectangle())
@@ -44,12 +44,12 @@ extension Bolus {
                             Spacer()
                             Text(
                                 formatter
-                                    .string(from: state.inslinRecommended as NSNumber)! +
+                                    .string(from: state.insulinRecommended as NSNumber)! +
                                     NSLocalizedString(" U", comment: "Insulin unit")
                             ).foregroundColor(.secondary)
                         }.contentShape(Rectangle())
                             .onTapGesture {
-                                state.amount = state.inslinRecommended
+                                state.amount = state.insulinRecommended
                             }
                     }
                 }
