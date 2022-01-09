@@ -27,7 +27,7 @@ struct MainChartView: View {
         static let maxGlucose = 250
         static let minGlucose = 50
         static let yLinesCount = 5
-        static let glucoseScale: CGFloat = 1.5 // default 2
+        static let glucoseScale: CGFloat = 2 // default 2
         static let bolusSize: CGFloat = 8
         static let bolusScale: CGFloat = 2.5
         static let carbsSize: CGFloat = 10
