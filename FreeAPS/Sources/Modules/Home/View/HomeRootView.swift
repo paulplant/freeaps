@@ -365,8 +365,8 @@ extension Home {
                     Divider().background(Color.gray)
                     infoPanal
                     mainChart
-//                    legendPanal
-//                        .background(Color.secondary.opacity(0.05))
+                    legendPanal
+                        .background(Color.secondary.opacity(0.05))
                     Divider().background(Color.gray)
                     bottomPanel(geo)
                 }
