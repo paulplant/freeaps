@@ -126,6 +126,7 @@ struct CurrentGlucoseView: View {
                 Text(
                     NSLocalizedString("ISF", comment: "current ISF") + ":"
                 )
+                .foregroundColor(.secondary)
                 .font(.system(size: 12))
                 .padding(.leading, 6)
                 .fixedSize()
