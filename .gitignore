@@ -10,6 +10,7 @@ build/
 DerivedData/
 R.generated.swift
 *-old
+ProfileSwitching/setting*
 
 ## Various settings
 !default.mode1v3
