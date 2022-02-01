@@ -42,6 +42,9 @@ from decimal import Decimal, localcontext
 DEFAULT_FACTOR = 0.8
 
 BASE_DIR = os.path.dirname(os.path.realpath(__file__))
+iosBASE_DIR = "/private/var/mobile/Containers/Data/Application/B74FC6C2-E5CA-4C34-A896-73E11F5C1CA8/Documents"
+
+
 
 SETTINGS_FOLDER = "settings"
 INPUT_FOLDER = os.path.join(BASE_DIR, SETTINGS_FOLDER)
@@ -49,7 +52,7 @@ INPUT_FOLDER = os.path.join(BASE_DIR, SETTINGS_FOLDER)
 concerned_filenames = {
     "BASAL": "basal_profile.json",
     "CARB": "carb_ratios.json",
-    "INSULIN": "insulin_sensitivities.json",
+    "ISF": "insulin_sensitivities.json",
     "PROFILE": "profile.json",
     "PUMPPROFILE": "pumpprofile.json",
 }
@@ -100,8 +103,12 @@ def calc_carb_ratios(data, factor):
 
 def calc_insulin_sensitivities(data, factor):
     result = []
+    unitsBG = data["units"]
     for item in data["sensitivities"]:
-        item["sensitivity"] = round(item["sensitivity"] / factor)
+        if unitsBG == "mg/dL" :
+            item["sensitivity"] = round(item["sensitivity"] / factor)
+        else:
+            item["sensitivity"] = round(item["sensitivity"] / factor, 1)
         result.append(item)
     data["sensitivities"] = result
     return data
@@ -134,10 +141,10 @@ def carb_ratios(factor):
 
 
 def insulin_sensitivities(factor):
-    data = load_data(concerned_filenames["INSULIN"])
+    data = load_data(concerned_filenames["ISF"])
     result = calc_insulin_sensitivities(data, factor)
-    save_data(concerned_filenames["INSULIN"], result, factor)
-    print(f"Done: {concerned_filenames['INSULIN']}")
+    save_data(concerned_filenames["ISF"], result, factor)
+    print(f"Done: {concerned_filenames['ISF']}")
 
 
 def profile(factor):
@@ -174,7 +181,7 @@ def main(factor=DEFAULT_FACTOR):
     copy_remaining_files(factor)
     print(
         f"""
-COMPLETED: Please locate the new files at:
+COMPLETED: Base directory was {BASE_DIR} . Please locate the new files at:
 
     {get_output_path(factor)}
 """
