@@ -405,7 +405,7 @@ extension PreferencesEditor {
                     settable: self
                 ),
                 Field(
-                    displayName: "Enable BG acceleartion in AutoISF2.2",
+                    displayName: "Enable BG acceleration in AutoISF2.2",
                     type: .boolean(keypath: \.enableBGacceleration),
                     infoText: NSLocalizedString(
                         "Enables the BG acceleration adaptiions for autoISF\n\nRead up on:\nhttps://github.com/ga-zelle/autoISF/tree/2.8.2dev_ai2.2",
