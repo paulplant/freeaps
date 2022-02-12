@@ -23,6 +23,47 @@ extension PreferencesEditor {
                 self?.provider.migrateUnits()
             }
 
+            // MARK: - Sport fields
+
+            let sportFields = [
+                Field(
+                    displayName: "Enable AutoISF",
+                    type: .boolean(keypath: \.autoisf),
+                    infoText: NSLocalizedString(
+                        "Defaults to false. Adapt ISF when glucose is stuck at high levels, only works without COB.\n\nRead up on:\nhttps://github.com/ga-zelle/autoISF/tree/2.8.2",
+                        comment: "Enable AutoISF"
+                    ),
+                    settable: self
+                ),
+                Field(
+                    displayName: "Exercise Mode",
+                    type: .boolean(keypath: \.exerciseMode),
+                    infoText: NSLocalizedString(
+                        "Defaults to false. When true, > 105 mg/dL high temp target adjusts sensitivityRatio for exercise_mode. Synonym for high_temptarget_raises_sensitivity",
+                        comment: "Exercise Mode"
+                    ),
+                    settable: self
+                ),
+                Field(
+                    displayName: "Half Basal Exercise Target",
+                    type: .decimal(keypath: \.halfBasalExerciseTarget),
+                    infoText: NSLocalizedString(
+                        "Set to a number, e.g. 160, which means when temp target is 160 mg/dL and exercise_mode=true, run 50% basal at this level (120 = 75%; 140 = 60%). This can be adjusted, to give you more control over your exercise modes.",
+                        comment: "Half Basal Exercise Target"
+                    ),
+                    settable: self
+                ),
+                Field(
+                    displayName: "Allow SMB With High Temptarget",
+                    type: .boolean(keypath: \.allowSMBWithHighTemptarget),
+                    infoText: NSLocalizedString(
+                        "Defaults to false. When true, allows supermicrobolus (if otherwise enabled) even with high temp targets.",
+                        comment: "Allow SMB With High Temptarget"
+                    ),
+                    settable: self
+                )
+            ]
+
             // MARK: - Main fields
 
             let mainFields = [
@@ -146,15 +187,6 @@ extension PreferencesEditor {
                     settable: self
                 ),
                 Field(
-                    displayName: "Allow SMB With High Temptarget",
-                    type: .boolean(keypath: \.allowSMBWithHighTemptarget),
-                    infoText: NSLocalizedString(
-                        "Defaults to false. When true, allows supermicrobolus (if otherwise enabled) even with high temp targets.",
-                        comment: "Allow SMB With High Temptarget"
-                    ),
-                    settable: self
-                ),
-                Field(
                     displayName: "Enable UAM",
                     type: .boolean(keypath: \.enableUAM),
                     infoText: NSLocalizedString(
@@ -240,24 +272,6 @@ extension PreferencesEditor {
                     infoText: NSLocalizedString(
                         "This feature was previously enabled by default but will now default to false (will NOT be enabled automatically) in oref0 0.6.0 and beyond. (There is no need for this with 0.6.0). This feature lowers oref0’s target BG automatically when current BG and eventualBG are high. This helps prevent and mitigate high BG, but automatically switches to low-temping to ensure that BG comes down smoothly toward your actual target. If you find this behavior too aggressive, you can disable this feature. If you do so, please let us know so we can better understand what settings work best for everyone.",
                         comment: "Advanced Target Adjustments"
-                    ),
-                    settable: self
-                ),
-                Field(
-                    displayName: "Exercise Mode",
-                    type: .boolean(keypath: \.exerciseMode),
-                    infoText: NSLocalizedString(
-                        "Defaults to false. When true, > 105 mg/dL high temp target adjusts sensitivityRatio for exercise_mode. Synonym for high_temptarget_raises_sensitivity",
-                        comment: "Exercise Mode"
-                    ),
-                    settable: self
-                ),
-                Field(
-                    displayName: "Half Basal Exercise Target",
-                    type: .decimal(keypath: \.halfBasalExerciseTarget),
-                    infoText: NSLocalizedString(
-                        "Set to a number, e.g. 160, which means when temp target is 160 mg/dL and exercise_mode=true, run 50% basal at this level (120 = 75%; 140 = 60%). This can be adjusted, to give you more control over your exercise modes.",
-                        comment: "Half Basal Exercise Target"
                     ),
                     settable: self
                 ),
@@ -383,15 +397,6 @@ extension PreferencesEditor {
                     infoText: NSLocalizedString(
                         "Defaults to false. If true, then dose slightly more aggressively by using all entered carbs for calculating COBpredBGs. This avoids backing off too quickly as COB decays. Even with this option, oref0 still switches gradually from using COBpredBGs to UAMpredBGs proportionally to how many carbs are left as COB. Summary: use all entered carbs in the future for predBGs & don't decay them as COB, only once they are actual.",
                         comment: "Floating Carbs"
-                    ),
-                    settable: self
-                ),
-                Field(
-                    displayName: "Enable AutoISF",
-                    type: .boolean(keypath: \.autoisf),
-                    infoText: NSLocalizedString(
-                        "Defaults to false. Adapt ISF when glucose is stuck at high levels, only works without COB.\n\nRead up on:\nhttps://github.com/ga-zelle/autoISF/tree/2.8.2",
-                        comment: "Enable AutoISF"
                     ),
                     settable: self
                 ),
@@ -570,6 +575,9 @@ extension PreferencesEditor {
             ]
 
             sections = [
+                FieldSection(
+                    displayName: NSLocalizedString("Sport settings", comment: "Sport settings"), fields: sportFields
+                ),
                 FieldSection(
                     displayName: NSLocalizedString("OpenAPS main settings", comment: "OpenAPS main settings"), fields: mainFields
                 ),
