@@ -30,6 +30,12 @@ Autosens and autoISF both manipulate sensitivityRatios and ISF. It is currently 
 
 If you enter carbs and still want to have Autosens running alongside, at least *Sensitivity Raises Target* and *Resistance Lowers Targets* should to be switched off.
 
+## Known Issues
+
++ sometimes the now pretty populated enacted popup parts ways with it’s tags. Disappearing the popup and longpressing the loop circle 'till haptic feedback seems to unite popup with tags again.
+
+![view Bug](tags_departed.png) ![view Resolved](tags_united.png)
+
 ## Sports & autoISF
 
 When exercising and raising sensitivity via *High TT Raises Sensitivity* or *Excercise Mode* you have to switch off autoISF, as it could send you in the opposite direction. It is easiest accomplished via middleware, that automaticall sets autoISF to off
