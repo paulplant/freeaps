@@ -56,15 +56,15 @@ struct TagCloudView: View {
                 return .loopOrange } else {
                 switch textTag {
                 case "autoISF":
-                    return .zt
+                    return .loopRed
                 case "SMB Delivery Ratio:":
                     return .uam
                 case "Parabolic Fit":
-                    return .loopRed
+                    return .zt
                 case "Autosens":
                     return .loopGreen
                 case "Standard":
-                    return .loopYellow
+                    return .insulin
                 default:
                     return .basal
                 }
