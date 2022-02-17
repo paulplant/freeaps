@@ -58,30 +58,30 @@ extension Home {
         var cobIobView: some View {
             VStack(alignment: .leading, spacing: 12) {
                 HStack {
-//                    Text("COB").font(.caption2).foregroundColor(.secondary)
-                    Image("premeal")
-                        .renderingMode(.template)
-                        .resizable()
-                        .frame(width: 12, height: 12)
-                        .foregroundColor(.loopYellow)
+                    Text("COB:").font(.caption2).foregroundColor(.secondary)
+//                    Image("premeal")
+//                        .renderingMode(.template)
+//                        .resizable()
+//                        .frame(width: 12, height: 12)
+//                        .foregroundColor(.loopYellow)
                     Text(
                         (numberFormatter.string(from: (state.suggestion?.cob ?? 0) as NSNumber) ?? "0") +
-                            NSLocalizedString(" g", comment: "gram of carbs")
+                            NSLocalizedString("g", comment: "gram of carbs")
                     )
-                    .font(.system(size: 12, weight: .bold))
+                    .font(.system(size: 14, weight: .bold))
                 }
                 HStack {
-//                    Text("IOB").font(.caption2).foregroundColor(.secondary)
-                    Image("bolus1")
-                        .renderingMode(.template)
-                        .resizable()
-                        .frame(width: 12, height: 12)
-                        .foregroundColor(.insulin)
+                    Text("IOB:").font(.caption2).foregroundColor(.secondary)
+//                    Image("bolus1")
+//                        .renderingMode(.template)
+//                        .resizable()
+//                        .frame(width: 12, height: 12)
+//                        .foregroundColor(.insulin)
                     Text(
                         (numberFormatter.string(from: (state.suggestion?.iob ?? 0) as NSNumber) ?? "0") +
-                            NSLocalizedString(" U", comment: "Insulin unit")
+                            NSLocalizedString("U", comment: "Insulin unit")
                     )
-                    .font(.system(size: 12, weight: .bold))
+                    .font(.system(size: 14, weight: .bold))
                 }
             }
         }

@@ -21,7 +21,7 @@ struct CarbsView: View {
                 HStack {
                     Button {
                         WKInterfaceDevice.current().play(.click)
-                        let newValue = amount - 6
+                        let newValue = amount - 5
                         amount = max(newValue, 0)
                     } label: {
                         Image(systemName: "minus")
@@ -43,7 +43,7 @@ struct CarbsView: View {
                     Spacer()
                     Button {
                         WKInterfaceDevice.current().play(.click)
-                        let newValue = amount + 6
+                        let newValue = amount + 5
                         amount = min(newValue, Double(state.maxCOB ?? 120))
                     } label: { Image(systemName: "plus") }
                         .frame(width: geo.size.width / 4)

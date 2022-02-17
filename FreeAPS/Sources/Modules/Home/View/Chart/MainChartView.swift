@@ -27,11 +27,11 @@ struct MainChartView: View {
         static let maxGlucose = 200
         static let minGlucose = 50
         static let yLinesCount = 3
-        static let glucoseScale: CGFloat = 1.5 // default 2
+        static let glucoseScale: CGFloat = 2.2 // default 2
         static let bolusSize: CGFloat = 8
         static let bolusScale: CGFloat = 3.5
         static let carbsSize: CGFloat = 10
-        static let carbsScale: CGFloat = 0.5
+        static let carbsScale: CGFloat = 0.7
     }
 
     @Binding var glucose: [BloodGlucose]
@@ -125,6 +125,7 @@ struct MainChartView: View {
         ScrollView(.horizontal, showsIndicators: false) {
             ScrollViewReader { scroll in
                 ZStack(alignment: .top) {
+//                    targetRangeView(fullSize: fullSize).drawingGroup()
                     tempTargetsView(fullSize: fullSize).drawingGroup()
                     basalView(fullSize: fullSize).drawingGroup()
 
@@ -179,12 +180,12 @@ struct MainChartView: View {
 
     private func basalView(fullSize: CGSize) -> some View {
         ZStack {
-            tempBasalPath.fill(Color.basal.opacity(0.5))
-            tempBasalPath.stroke(Color.insulin, lineWidth: 1)
+            tempBasalPath.fill(Color.basal.opacity(0.4))
+            tempBasalPath.stroke(Color.insulin, lineWidth: 0.8)
             regularBasalPath.stroke(Color.insulin, style: StrokeStyle(lineWidth: 0.7, dash: [4]))
             suspensionsPath.stroke(Color.loopGray.opacity(0.7), style: StrokeStyle(lineWidth: 0.7)).scaleEffect(x: 1, y: -1)
             suspensionsPath.fill(Color.loopGray.opacity(0.2)).scaleEffect(x: 1, y: -1)
-            regularBasalPath.stroke(Color.basal, style: StrokeStyle(lineWidth: 1, dash: [3]))
+            regularBasalPath.stroke(Color.basal, style: StrokeStyle(lineWidth: 1.2, dash: [4]))
         }
         .scaleEffect(x: 1, y: -1)
         .frame(width: fullGlucoseWidth(viewWidth: fullSize.width) + additionalWidth(viewWidth: fullSize.width))
@@ -344,6 +345,25 @@ struct MainChartView: View {
         }
         .onChange(of: didAppearTrigger) { _ in
             calculateTempTargetsRects(fullSize: fullSize)
+        }
+    }
+
+    // paul
+    private func targetRangeView(fullSize: CGSize) -> some View {
+        ZStack {
+            tempTargetsPath
+                .fill(Color.loopGreen.opacity(0.2))
+            tempTargetsPath
+                .stroke(Color.loopGreen.opacity(0.2), lineWidth: 0)
+        }
+        .onChange(of: glucose) { _ in
+            calculateTargetRangeRects(fullSize: fullSize)
+        }
+        .onChange(of: tempTargets) { _ in
+            calculateTargetRangeRects(fullSize: fullSize)
+        }
+        .onChange(of: didAppearTrigger) { _ in
+            calculateTargetRangeRects(fullSize: fullSize)
         }
     }
 
@@ -628,6 +648,46 @@ extension MainChartView {
     }
 
     private func calculateTempTargetsRects(fullSize: CGSize) {
+        calculationQueue.async {
+            var rects = tempTargets.map { tempTarget -> CGRect in
+                let x0 = timeToXCoordinate(tempTarget.createdAt.timeIntervalSince1970, fullSize: fullSize)
+                let y0 = glucoseToYCoordinate(Int(tempTarget.targetTop ?? 0), fullSize: fullSize)
+                let x1 = timeToXCoordinate(
+                    tempTarget.createdAt.timeIntervalSince1970 + Int(tempTarget.duration).minutes.timeInterval,
+                    fullSize: fullSize
+                )
+                let y1 = glucoseToYCoordinate(Int(tempTarget.targetBottom ?? 0), fullSize: fullSize)
+                return CGRect(
+                    x: x0,
+                    y: y0 - 3,
+                    width: x1 - x0,
+                    height: y1 - y0 + 6
+                )
+            }
+            if rects.count > 1 {
+                rects = rects.reduce([]) { result, rect -> [CGRect] in
+                    guard var last = result.last else { return [rect] }
+                    if last.origin.x + last.width > rect.origin.x {
+                        last.size.width = rect.origin.x - last.origin.x
+                    }
+                    var res = Array(result.dropLast())
+                    res.append(contentsOf: [last, rect])
+                    return res
+                }
+            }
+
+            let path = Path { path in
+                path.addRects(rects)
+            }
+
+            DispatchQueue.main.async {
+                tempTargetsPath = path
+            }
+        }
+    }
+
+    // paul
+    private func calculateTargetRangeRects(fullSize: CGSize) {
         calculationQueue.async {
             var rects = tempTargets.map { tempTarget -> CGRect in
                 let x0 = timeToXCoordinate(tempTarget.createdAt.timeIntervalSince1970, fullSize: fullSize)

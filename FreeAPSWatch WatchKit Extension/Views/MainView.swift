@@ -47,7 +47,7 @@ struct MainView: View {
             HStack(alignment: .lastTextBaseline) {
                 VStack(alignment: .leading, spacing: 0) {
                     HStack(alignment: .center) {
-                        Text(state.glucose).font(.largeTitle).foregroundColor(colorOfGlucose)
+                        Text(state.glucose).font(.system(size: 50, weight: .medium)).foregroundColor(colorOfGlucose)
                             .scaledToFill()
                             .minimumScaleFactor(0.5)
                         // .padding(.top, 2)
@@ -59,28 +59,31 @@ struct MainView: View {
                         }
                     }
                     HStack {
-                        Text(state.delta).font(.title3).foregroundColor(.gray)
+                        Text(state.delta)
+                            .font(.title3)
                             .scaledToFill()
                             .minimumScaleFactor(0.5)
-                        Text(state.trend).foregroundColor(.gray)
-                        Text(state.eventualBG).font(.title3)
+                        Text(state.trend)
+                        Text(state.eventualBG)
+                            .font(.caption)
+                            .foregroundColor(.gray)
                             .scaledToFill()
                             .minimumScaleFactor(0.5)
                     }
                 }
                 Spacer()
-                VStack(spacing: 2) {
+                VStack(spacing: 6) {
                     HStack {
-                        Circle().stroke(color, lineWidth: 6).frame(width: 30, height: 30).padding()
+                        Circle().stroke(color, lineWidth: 7).frame(width: 32, height: 32).padding()
                     }
 
                     if state.lastLoopDate != nil {
-                        Text(timeString).font(.caption2).foregroundColor(.gray)
+                        Text(timeString).font(.caption).foregroundColor(.gray)
                             .scaledToFill()
                             .minimumScaleFactor(0.5)
                             .foregroundColor(.secondary)
                     } else {
-                        Text("--").font(.caption2).foregroundColor(.gray)
+                        Text("--").font(.caption).foregroundColor(.gray)
                             .scaledToFill()
                             .minimumScaleFactor(0.5)
                     }
@@ -107,10 +110,10 @@ struct MainView: View {
                     .scaledToFill()
                     .minimumScaleFactor(0.5)
                 Spacer()
-                Text(iobFormatter.string(from: (state.isf ?? 0) as NSNumber)!).font(.title3).fixedSize()
+                Text("ISF").foregroundColor(.loopGreen).fixedSize()
                     .scaledToFill()
                     .minimumScaleFactor(0.5)
-                Text("isf").foregroundColor(.loopGreen).fixedSize()
+                Text(iobFormatter.string(from: (state.isf ?? 0) as NSNumber)!).font(.title3).fixedSize()
                     .scaledToFill()
                     .minimumScaleFactor(0.5)
             }.padding(.bottom)
@@ -177,14 +180,18 @@ struct MainView: View {
         else { return .loopYellow }
 
         switch recentBG {
-        case 55 ... 74:
-            return .loopOrange
-        case 75 ... 140:
-            return .loopGreen
-        case 141 ... 180:
-            return .loopYellow
+        case 30 ... 64:
+            return .red
+        case 65 ... 89:
+            return .primary
+        case 99 ... 109:
+            return .primary
+        case 110 ... 199:
+            return .primary
+        case 200 ... 500:
+            return .red
         default:
-            return .loopRed
+            return .primary
         }
     }
 
@@ -195,9 +202,9 @@ struct MainView: View {
         let delta = Date().timeIntervalSince(lastLoopDate) - Config.lag
 
         if delta <= 5.minutes.timeInterval {
-            return .loopGreen
+            return .green
         } else if delta <= 10.minutes.timeInterval {
-            return .loopYellow
+            return .yellow
         } else {
             return .loopRed
         }

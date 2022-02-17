@@ -34,11 +34,14 @@ struct LoopView: View {
             }
             if isLooping {
                 Text("looping").font(.caption2)
+                    .font(.system(size: 14))
             } else if actualSuggestion?.timestamp != nil {
                 Text(timeString).font(.caption2)
-                    .foregroundColor(.secondary)
+                    .foregroundColor(.primary)
+                    .font(.system(size: 14))
             } else {
                 Text("--").font(.caption2).foregroundColor(.secondary)
+                    .font(.system(size: 14))
             }
         }
     }
@@ -59,11 +62,11 @@ struct LoopView: View {
 
         if delta <= 5.minutes.timeInterval {
             guard actualSuggestion?.deliverAt != nil else {
-                return .loopYellow
+                return .loopOrange
             }
             return .loopGreen
         } else if delta <= 10.minutes.timeInterval {
-            return .loopYellow
+            return .loopOrange
         } else {
             return .loopRed
         }

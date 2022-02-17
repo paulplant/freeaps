@@ -27,16 +27,16 @@ struct PumpView: View {
                     Image(systemName: "drop.fill")
                         .resizable()
                         .aspectRatio(contentMode: .fit)
-                        .frame(height: 8)
+                        .frame(height: 12)
                         .foregroundColor(reservoirColor)
                     if reservoir == 0xDEAD_BEEF {
-                        Text("50+ " + NSLocalizedString("U", comment: "Insulin unit")).font(.system(size: 12, weight: .bold))
+                        Text("50+ " + NSLocalizedString("U", comment: "Insulin unit")).font(.system(size: 14, weight: .bold))
                     } else {
                         Text(
                             reservoirFormatter
-                                .string(from: reservoir as NSNumber)! + NSLocalizedString(" U", comment: "Insulin unit")
+                                .string(from: reservoir as NSNumber)! + NSLocalizedString("U", comment: "Insulin unit")
                         )
-                        .font(.system(size: 12, weight: .bold))
+                        .font(.system(size: 14, weight: .bold))
                     }
                 }
             }
@@ -45,9 +45,9 @@ struct PumpView: View {
                     Image(systemName: "battery.100")
                         .resizable()
                         .aspectRatio(contentMode: .fit)
-                        .frame(height: 8)
+                        .frame(height: 9)
                         .foregroundColor(batteryColor)
-                    Text("\(Int(battery.percent ?? 100)) %").font(.system(size: 12, weight: .bold))
+                    Text("\(Int(battery.percent ?? 100))%").font(.system(size: 14, weight: .bold))
                 }
             }
 
@@ -58,7 +58,7 @@ struct PumpView: View {
                         .aspectRatio(contentMode: .fit)
                         .frame(height: 8)
                         .foregroundColor(timerColor)
-                    Text(remainingTimeString(time: date.timeIntervalSince(timerDate))).font(.system(size: 12, weight: .bold))
+                    Text(remainingTimeString(time: date.timeIntervalSince(timerDate))).font(.system(size: 14, weight: .bold))
                 }
             }
         }

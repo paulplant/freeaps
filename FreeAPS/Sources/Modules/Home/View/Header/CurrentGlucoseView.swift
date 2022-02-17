@@ -47,14 +47,18 @@ struct CurrentGlucoseView: View {
         else { return .loopYellow }
 
         switch recentBG {
-        case 55 ... 74:
-            return .loopOrange
-        case 75 ... 140:
-            return .loopGreen
-        case 141 ... 180:
-            return .loopYellow
+        case 30 ... 64:
+            return .red
+        case 65 ... 89:
+            return .primary
+        case 99 ... 109:
+            return .primary
+        case 110 ... 199:
+            return .primary
+        case 200 ... 500:
+            return .red
         default:
-            return .loopRed
+            return .primary
         }
     }
 
@@ -72,11 +76,11 @@ struct CurrentGlucoseView: View {
     func colorOfMinutesAgo(_ minutes: Int) -> Color {
         switch minutes {
         case 0 ... 5:
-            return .loopGreen
+            return .secondary
         case 6 ... 9:
-            return .loopYellow
+            return .orange
         default:
-            return .loopRed
+            return .red
         }
     }
 
@@ -96,44 +100,44 @@ struct CurrentGlucoseView: View {
                 .foregroundColor(alarm == nil ? colorOfGlucose : .loopRed)
                 image.padding(.bottom, 2)
 
-                if let eventualBG = eventualBG {
-                    if units == .mmolL {
-                        Text(
-                            glucoseFormatter
-                                .string(from: Decimal(eventualBG).asMmolL as NSNumber)!
-                        )
-                        .font(.system(size: 18, weight: .regular)).foregroundColor(.secondary).fixedSize()
-
-                    } else {
-                        Text("\(eventualBG)").font(.system(size: 18, weight: .regular)).foregroundColor(.secondary)
-                            .fixedSize()
-                    }
-                }
+//                if let eventualBG = eventualBG {
+//                    if units == .mmolL {
+//                        Text(
+//                            glucoseFormatter
+//                                .string(from: Decimal(eventualBG).asMmolL as NSNumber)!
+//                        )
+//                        .font(.system(size: 18, weight: .regular)).foregroundColor(.secondary).fixedSize()
+//
+//                    } else {
+//                        Text("\(eventualBG)").font(.system(size: 18, weight: .regular)).foregroundColor(.secondary)
+//                            .fixedSize()
+//                    }
+//                }
                 // Spacer()
             } // .padding(.leading, 0)
             HStack(alignment: .lastTextBaseline, spacing: 2) {
                 Text(
                     "\(minutesAgo)m "
-                ).font(.system(size: 12, weight: .bold)).foregroundColor(colorOfMinutesAgo(minutesAgo))
+                ).font(.system(size: 14)).foregroundColor(colorOfMinutesAgo(minutesAgo))
                     .fixedSize()
                 Text(
                     delta
                         .map { deltaFormatter.string(from: Double(units == .mmolL ? $0.asMmolL : Decimal($0)) as NSNumber)!
                         } ??
                         "--"
-                ).font(.system(size: 12, weight: .bold))
+                ).font(.system(size: 14, weight: .bold))
                     .fixedSize()
                 Text(
-                    NSLocalizedString("ISF", comment: "current ISF") + ":"
+                    NSLocalizedString(" ISF", comment: "current ISF") + ":"
                 )
                 .foregroundColor(.secondary)
-                .font(.system(size: 12))
+                .font(.system(size: 14))
                 .padding(.leading, 6)
                 .fixedSize()
                 Text(
                     numberFormatter.string(from: (currentISF ?? 0) as NSNumber) ?? "0"
                 )
-                .font(.system(size: 12, weight: .bold))
+                .font(.system(size: 14, weight: .bold))
                 .fixedSize()
             }
         }
