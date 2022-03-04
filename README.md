@@ -38,7 +38,7 @@ If you enter carbs and still want to have Autosens running alongside, at least *
 
 ## Sports & autoISF
 
-When exercising and raising sensitivity via *High TT Raises Sensitivity* or *Excercise Mode* you have to switch off autoISF, as it could send you in the opposite direction. It is easiest accomplished via middleware, that automaticall sets autoISF to off
+When exercising and raising sensitivity via *High TT Raises Sensitivity* or *Excercise Mode* you have to switch off autoISF, as it could send you in the opposite direction. It is easiest accomplished via middleware, that automatically sets autoISF to off
 
 ``` js
 function middleware(iob, currenttemp, glucose, profile, autosens, meal, reservoir, clock) {
