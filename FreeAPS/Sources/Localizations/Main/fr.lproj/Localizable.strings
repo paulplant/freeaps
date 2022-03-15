@@ -899,6 +899,7 @@ Enact a temp Basal or a temp target */
 /* Sensor day(s) */
 " day(s)" = " jour(s)";
 
+
 /* Headers for settings ----------------------- */
 "OpenAPS main settings" = "Paramètres OpenAPS";
 
