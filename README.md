@@ -7,7 +7,7 @@ That will be more easy to review as the packeted js-files in FAX are not really 
 
 ### Java changes in oref for FAX
 In order to minimize the js code from oref to use in FAX (if the need should arise) follow hese instructions by nuker:
-Instructions edit js-files
+#### Instructions edit js-files
 
 Fork oref0.
 
