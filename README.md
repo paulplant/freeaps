@@ -5,6 +5,49 @@ Ivan's tremendous effort with FreeAPS X - supplemented with an adapted oref1 alg
 I just tweaked this oref to work with FAX and JonB helped a lot getting all prefs sorted in FAX. The whole algorithm can be found in my oref repo: https://github.com/mountrcg/oref0/tree/xpm2.2
 That will be more easy to review as the packeted js-files in FAX are not really readable. And I really suggest to look at the code.
 
+### Java changes in oref for FAX
+In order to minimize the js code from oref to use in FAX (if the need should arise) follow hese instructions by nuker:
+Instructions edit js-files
+
+Fork oref0.
+
+Clone oref0 to your computer.
+
+Change the code as you please in the folder lib, (for instance determine-basal.js).
+
+Copy the ”webpack.config” file from FreeAPS X/scripts to your ”oref0” -folder (same folder where the ”lib” older is located).
+
+In terminal cd into the same ”oref0” folder.
+
+Install Node. Link for Mac OS pkg:  64-bit
+
+Install web pack (stay in same directory as before in terminal):
+npm install --save-dev webpack
+
+Install webpack CLI: 
+npm install -D webpack-cli
+
+Run web pack command:
+npx webpack
+
+
+Open your oref0 folder in Finder. 
+Open the ”dist” folder. This folder was created by Webpacker.
+Copy the js file/s you changed.
+
+Open your freeaps x folder in Finder.
+
+Open ”FreeAPS/Resources” folder.
+Open ”javascript/bundle” folder.
+
+Replace the current js.file/s with the minimized files from the ”dist” folder.
+Make sure the new files have exactly the same file name as the one you moved/deleted/replaced.
+
+
+Build FreeAPS X again.
+
+That’s it!
+
 
 ## Changes to FAX
 
