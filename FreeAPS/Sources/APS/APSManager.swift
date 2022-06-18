@@ -638,10 +638,16 @@ final class BaseAPSManager: APSManager, Injectable {
                     nrOfIndeces = 1
                 }
 
-                let average7 = total / indeces
-                let average2hours = totalAmount / nrOfIndeces
+                var calc_average7 = total / indeces
+                var average7 = Decimal()
+                NSDecimalRound(&average7, &calc_average7, 2, .bankers)
+                var calc_average2hours = totalAmount / nrOfIndeces
+                var average2hours = Decimal()
+                NSDecimalRound(&average2hours, &calc_average2hours, 2, .bankers)
                 let weight = preferences.weightPercentage
-                let weighted_average = weight * average2hours + (1 - weight) * average7
+                var calc_weighted_average = weight * average2hours + (1 - weight) * average7
+                var weighted_average = Decimal()
+                NSDecimalRound(&weighted_average, &calc_weighted_average, 2, .bankers)
 
                 let averages = TDD_averages(
                     average_7days: average7,
