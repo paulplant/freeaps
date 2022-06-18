@@ -1,16 +1,16 @@
 # FreeAPS X with aisf
 
-Ivan's tremendous effort with FreeAPS X - supplemented with an adapted oref1 algo that is based on Gerhards work with his German community, especialy Bernd who trials and tweaks all parameters for himself and documents his structured progress quite well. Gerhard's oref adation and lots of documents and simulation programs for Android can be found at: https://github.com/ga-zelle/autoISF
+Ivan's tremendous effort with FreeAPS X - supplemented with an adapted oref1 algo that is based on Gerhards work with his German community, especialy Bernd who trials and tweaks all parameters for himself and documents his structured progress quite well. Gerhard's oref adation and lots of documents and simulation programs for Android can be found at: https://github.com/ga-zelle/autoISF The Team has created numerous very good documentations, that you must read before configuring autoISF, especially the [quick guide](https://github.com/ga-zelle/autoISF/blob/A3.0.0.1_ai2.2.6/autoISF2.2_Quick_Guide.pdf)
 
 I just tweaked this oref to work with FAX and JonB helped a lot getting all prefs sorted in FAX. The whole algorithm can be found in my oref repo: 
-* https://github.com/mountrcg/oref0/tree/autoISF2.3-DynISF1.0 or just with autoISF
-* https://github.com/mountrcg/oref0/tree/autoISF2.3
+* https://github.com/mountrcg/oref0/tree/autoISF2.2.6-DynISF1.0 or just with autoISF
+* https://github.com/mountrcg/oref0/tree/autoISF2.2.6
  
 That will be more easy to review as the packeted js-files in FAX are not really readable. And I really suggest to look at the code.
 
 ## Important updates
 
-autoISF remains stable in v2.3. However I have added Jons (https://github.com/Jon-b-m) implementation of calculating TDD's for DynamicISF. So DynISF is also included in this latest commit. I have not used it, it's quite simplistic compared to autoISF but I love having TDD's available. I also show them in the Suggestion/enacted pop-up. If you wish to use DynISF you need to activate it in Prefs. It will automatically disable autoISF and the result is shown in the Autosens output.
+autoISF remains stable in v2.2.6 However I have added [Jons](https://github.com/Jon-b-m) implementation of calculating TDD's for DynamicISF. So DynISF is also included in this latest commit. I have not used it, it's quite simplistic compared to autoISF but I love having TDD's available. I also show them in the Suggestion/enacted pop-up. If you wish to use DynISF you need to activate it in Prefs. It will automatically disable autoISF and the result is shown in the Autosens output.
 
 AutoISF with TDD in pop-up and in legend (bottom right corner)
 
@@ -86,7 +86,7 @@ You will loose most of your previous settings in FAX, all settings with pre-defi
 
 Autosens and autoISF both manipulate sensitivityRatios and ISF. It is currently setup that the stronger sensitivityRatios win. In order to not get duplicating effects or contradicting effects, it is suggested to switch Autosens off by setting `profile.autosens_max = 1` and `profile.autosens_min = 1`, which is an absolute must if no carbs are logged, running in UAM only mode.
 
-If you enter carbs and still want to have Autosens running alongside, at least *Sensitivity Raises Target* and *Resistance Lowers Targets* should to be switched off.
+If you enter carbs and still want to have Autosens running alongside, at least *Sensitivity Raises Target* and *Resistance Lowers Targets* should to be switched off. For DynISF autosens needs to be active and be able to swing in you set boundaries, as DynISF manipulates the autosens result.
 
 ## Known Issues
 
