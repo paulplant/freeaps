@@ -14,7 +14,7 @@ autoISF remains stable in v2.2.6 However I have added [Jons](https://github.com/
 
 AutoISF with TDD in pop-up and in legend (bottom right corner)
 
-![view FAX-TDD](screen-FAX_aisf2.3_dynisf1.0.png)
+![view FAX-TDD](screen-FAX_aisf2.3_dynisf1.0.png) ![view watch-TDD](screenWatch_TDD.png)
 
 DynISF output
 
