@@ -250,6 +250,11 @@ extension Home {
                     Text("UAM")
                         .font(.system(size: 12, weight: .bold)).foregroundColor(.uam)
                 }
+                Text(
+                    "TDD " + (numberFormatter.string(from: (state.suggestion?.tdd ?? 0) as NSNumber) ?? "0") +
+                        NSLocalizedString("U", comment: "Insulin unit")
+                )
+                .font(.system(size: 12, weight: .regular)).foregroundColor(.insulin).padding(.leading, 8)
 //                if let eventualBG = state.eventualBG {
 //                    Text(
 //                        "⇢ " + numberFormatter.string(

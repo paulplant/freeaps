@@ -328,11 +328,11 @@ extension BaseDeviceDataManager: PumpManagerDelegate {
         debug(.deviceManager, "New pump events:\n\(events.map(\.title).joined(separator: "\n"))")
 
         // filter buggy TBRs > maxBasal from MDT
-        let events = events.filter {
-            // type is optional...
-            guard let type = $0.type, type == .tempBasal else { return true }
-            return $0.dose?.unitsPerHour ?? 0 <= Double(settingsManager.pumpSettings.maxBasal)
-        }
+//        let events = events.filter {
+//            // type is optional...
+//            guard let type = $0.type, type == .tempBasal else { return true }
+//            return $0.dose?.unitsPerHour ?? 0 <= Double(settingsManager.pumpSettings.maxBasal)
+//        }
         pumpHistoryStorage.storePumpEvents(events)
         lastEventDate = events.last?.date
         completion(nil)
