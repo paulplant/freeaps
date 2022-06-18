@@ -43,10 +43,10 @@ struct MainView: View {
     }
 
     var header: some View {
-        VStack {
+        HStack {
             HStack(alignment: .lastTextBaseline) {
                 VStack(alignment: .leading, spacing: 0) {
-                    HStack(alignment: .center) {
+                    HStack(alignment: .bottom) {
                         Text(state.glucose).font(.largeTitle).foregroundColor(colorOfGlucose)
                             .scaledToFill()
                             .minimumScaleFactor(0.5)
@@ -55,10 +55,16 @@ struct MainView: View {
                             withAnimation {
                                 BlinkingView(count: 8, size: 3)
                                     .frame(width: 25, height: 18)
+                                    .padding(.bottom, 15)
                             }
                         }
+                        Spacer()
+                        Text("TDD").foregroundColor(.insulin).font(.caption).fixedSize()
+                            .scaledToFill()
+                            .minimumScaleFactor(0.5)
+                            .padding(.bottom, 6)
                     }
-                    HStack {
+                    HStack(alignment: .lastTextBaseline) {
                         Text(state.delta).font(.title3).foregroundColor(.gray)
                             .scaledToFill()
                             .minimumScaleFactor(0.5)
@@ -66,10 +72,15 @@ struct MainView: View {
                         Text(state.eventualBG).font(.title3)
                             .scaledToFill()
                             .minimumScaleFactor(0.5)
+                        Spacer()
+                        Text(iobFormatter.string(from: (state.tdd ?? 0) as NSNumber)!).font(.caption).fixedSize()
+                            .foregroundColor(.insulin)
+                            .scaledToFill()
+                            .minimumScaleFactor(0.5)
                     }
                 }
                 Spacer()
-                VStack(spacing: 2) {
+                VStack(spacing: 4) {
                     HStack {
                         Circle().stroke(color, lineWidth: 6).frame(width: 30, height: 30).padding()
                     }
@@ -79,6 +90,7 @@ struct MainView: View {
                             .scaledToFill()
                             .minimumScaleFactor(0.5)
                             .foregroundColor(.secondary)
+                        // .padding(.bottom, 4)
                     } else {
                         Text("--").font(.caption2).foregroundColor(.gray)
                             .scaledToFill()
@@ -213,6 +225,7 @@ struct ContentView_Previews: PreviewProvider {
         state.iob = 9.9
         state.cob = 88
         state.isf = 100
+        state.tdd = 35.95
         state.eventualBG = "232"
 
         state.lastLoopDate = Date().addingTimeInterval(-200)
@@ -221,9 +234,7 @@ struct ContentView_Previews: PreviewProvider {
             [TempTargetWatchPreset(name: "Test", id: "test", description: "", until: Date().addingTimeInterval(3600 * 3))]
 
         return Group {
-            MainView()
-            MainView().previewDevice("Apple Watch Series 7 - 41mm")
-            MainView().previewDevice("Apple Watch Series 7 - 41mm")
+            MainView().previewDevice("Apple Watch Series 7 - 45mm")
         }.environmentObject(state)
     }
 }

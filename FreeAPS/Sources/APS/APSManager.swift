@@ -615,7 +615,7 @@ final class BaseAPSManager: APSManager, Injectable {
                         indeces += 1
                     }
                 }
-
+                // entries for average last 2 hrs
                 let entriesPast2hours = storage.retrieve(file, as: [TDD].self)?
                     .filter { $0.timestamp.addingTimeInterval(2.hours.timeInterval) > Date() }
                     .sorted { $0.timestamp > $1.timestamp } ?? []

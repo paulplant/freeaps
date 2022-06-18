@@ -20,6 +20,7 @@ class WatchStateModel: NSObject, ObservableObject {
     @Published var iob: Decimal?
     @Published var cob: Decimal?
     @Published var isf: Decimal?
+    @Published var tdd: Decimal?
     @Published var tempTargets: [TempTargetWatchPreset] = []
     @Published var bolusAfterCarbs = true
 
@@ -158,6 +159,7 @@ class WatchStateModel: NSObject, ObservableObject {
         iob = state.iob
         cob = state.cob
         isf = state.isf
+        tdd = state.tdd
         tempTargets = state.tempTargets
         bolusAfterCarbs = state.bolusAfterCarbs ?? true
         lastUpdate = Date()
