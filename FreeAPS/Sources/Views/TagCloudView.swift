@@ -60,14 +60,13 @@ struct TagCloudView: View {
                 return .loopRed
             case "SMB Delivery Ratio:":
                 return .loopOrange
-            case "Dynamic ISF/CR",
-                 "Parabolic Fit",
+            case "Parabolic Fit",
                  textTag where textTag.contains("acce-ISF"):
                 return .zt
-            case "Autosens",
-                 "TDD":
+            case "Autosens":
                 return .loopGreen
-            case "Standard":
+            case "Standard",
+                 "TDD":
                 return .insulin
             default:
                 return .basal
