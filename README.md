@@ -10,15 +10,12 @@ That will be more easy to review as the packeted js-files in FAX are not really 
 
 ## Important updates
 
-autoISF remains stable in v2.2.6 However I have added [Jons](https://github.com/Jon-b-m) implementation of calculating TDD's for DynamicISF. So DynISF is also included in this latest commit. I have not used it, it's quite simplistic compared to autoISF but I love having TDD's available. I also show them in the Suggestion/enacted pop-up. If you wish to use DynISF you need to activate it in Prefs. It will automatically disable autoISF and the result is shown in the Autosens output.
+autoISF remains stable in v2.2.6 However I have added [Jons](https://github.com/Jon-b-m) implementation of calculating TDD's for DynamicISF. DynISF is not included in this latest commit. 
 
 AutoISF with TDD in pop-up and in legend (bottom right corner)
 
 ![view FAX-TDD](screen-FAX_aisf2.3_dynisf1.0.png) ![view watch-TDD](screenWatch_TDD.png)
 
-DynISF output
-
-![view FAX-DynISF](screen-FAX_dynisf1.0.png)
 
 ## Java changes in oref for FAX
 In order to minimize the js code from oref to use in FAX (if the need should arise) follow hese instructions by nuker:
@@ -109,7 +106,6 @@ function middleware(iob, currenttemp, glucose, profile, autosens, meal, reservoi
     }
     if (profile.temptargetSet && profile.min_bg > 109 && exerciseSetting == true) {
         profile.use_autoisf = false;
-        profile.enableDynamicISF = false;
         reasonSports = "autoISF & DynISF off due to Exercise Target. Current min target: " + currentMinTarget + "! ";
     }
     return `${reasonSports}`
