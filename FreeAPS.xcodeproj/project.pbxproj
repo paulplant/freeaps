@@ -241,6 +241,7 @@
 		45717281F743594AA9D87191 /* ConfigEditorRootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 920DDB21E5D0EB813197500D /* ConfigEditorRootView.swift */; };
 		4989A60B285CB71600B5A0CE /* TDD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4989A60A285CB71600B5A0CE /* TDD.swift */; };
 		4989A60D285CB75200B5A0CE /* TDD_averages.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4989A60C285CB75200B5A0CE /* TDD_averages.swift */; };
+		49D2A6FA286346CE00BA9064 /* TDD_daily.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D2A6F9286346CE00BA9064 /* TDD_daily.swift */; };
 		49D42B4E274BCBA600FCEEB4 /* Config.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 38F3783A2613555C009DB701 /* Config.xcconfig */; };
 		5075C1608E6249A51495C422 /* TargetsEditorProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BDEA2DC60EDE0A3CA54DC73 /* TargetsEditorProvider.swift */; };
 		53F2382465BF74DB1A967C8B /* PumpConfigProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8630D58BDAD6D9C650B9B39 /* PumpConfigProvider.swift */; };
@@ -652,6 +653,7 @@
 		47DFCE895C930F784EF11843 /* CalibrationsStateModel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = CalibrationsStateModel.swift; sourceTree = "<group>"; };
 		4989A60A285CB71600B5A0CE /* TDD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TDD.swift; sourceTree = "<group>"; };
 		4989A60C285CB75200B5A0CE /* TDD_averages.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TDD_averages.swift; sourceTree = "<group>"; };
+		49D2A6F9286346CE00BA9064 /* TDD_daily.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TDD_daily.swift; sourceTree = "<group>"; };
 		4DD795BA46B193644D48138C /* TargetsEditorRootView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TargetsEditorRootView.swift; sourceTree = "<group>"; };
 		500371C09F54F89A97D65FDB /* CalibrationsRootView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = CalibrationsRootView.swift; sourceTree = "<group>"; };
 		505E09DC17A0C3D0AF4B66FE /* ISFEditorStateModel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ISFEditorStateModel.swift; sourceTree = "<group>"; };
@@ -1272,6 +1274,7 @@
 				3883583325EEB38000E024B2 /* PumpSettings.swift */,
 				38E989DC25F5021400C0CED0 /* PumpStatus.swift */,
 				4989A60C285CB75200B5A0CE /* TDD_averages.swift */,
+				49D2A6F9286346CE00BA9064 /* TDD_daily.swift */,
 				38BF021C25E7E3AF00579895 /* Reservoir.swift */,
 				3871F38625ED661C0013ECB5 /* Suggestion.swift */,
 				38A0364125ED069400FCBB52 /* TempBasal.swift */,
@@ -2308,6 +2311,7 @@
 				E25073BC86C11C3D6A42F5AC /* CalibrationsStateModel.swift in Sources */,
 				BA90041DC8991147E5C8C3AA /* CalibrationsRootView.swift in Sources */,
 				E3A08AAE59538BC8A8ABE477 /* NotificationsConfigDataFlow.swift in Sources */,
+				49D2A6FA286346CE00BA9064 /* TDD_daily.swift in Sources */,
 				0F7A65FBD2CD8D6477ED4539 /* NotificationsConfigProvider.swift in Sources */,
 				3171D2818C7C72CD1584BB5E /* NotificationsConfigStateModel.swift in Sources */,
 				CD78BB94E43B249D60CC1A1B /* NotificationsConfigRootView.swift in Sources */,
