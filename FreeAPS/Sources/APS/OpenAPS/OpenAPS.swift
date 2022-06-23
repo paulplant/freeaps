@@ -42,6 +42,7 @@ final class OpenAPS {
                 self.storage.save(meal, as: Monitor.meal)
 
                 let tdd = self.loadFileFromStorage(name: OpenAPS.Monitor.tdd)
+                let tdd_daily = self.loadFileFromStorage(name: OpenAPS.Monitor.tdd_daily)
                 let tdd_averages = self.loadFileFromStorage(name: OpenAPS.Monitor.tdd_averages)
 
                 // iob
@@ -73,6 +74,7 @@ final class OpenAPS {
                     preferences: preferences,
                     basalProfile: basalProfile,
                     tdd: tdd,
+                    tdd_daily: tdd_daily,
                     tdd_averages: tdd_averages
                 )
                 debug(.openAPS, "SUGGESTED: \(suggested)")
@@ -305,6 +307,7 @@ final class OpenAPS {
         preferences: JSON,
         basalProfile: JSON,
         tdd: JSON,
+        tdd_daily: JSON,
         tdd_averages: JSON
     ) -> RawJSON {
         dispatchPrecondition(condition: .onQueue(processQueue))
@@ -335,6 +338,7 @@ final class OpenAPS {
                     preferences,
                     basalProfile,
                     tdd,
+                    tdd_daily,
                     tdd_averages
                 ]
             )

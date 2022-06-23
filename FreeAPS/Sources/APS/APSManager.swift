@@ -608,6 +608,31 @@ final class BaseAPSManager: APSManager, Injectable {
 
                 var total: Decimal = 0
                 var indeces: Decimal = 0
+                var calendar: Calendar { Calendar.current }
+
+                // store last daily TDD
+                let lastLoop = uniqEvents[0]
+                let lastDate = calendar.component(.day, from: lastLoop.timestamp)
+                let prevLoop = uniqEvents[1]
+                let prevDate = calendar.component(.day, from: prevLoop.timestamp)
+                if prevDate < lastDate {
+                    let lastTDD = prevLoop
+                    var uniqTDD: [TDD] = []
+                    storage.transaction { storage in
+                        storage.append(lastTDD, to: OpenAPS.Monitor.tdd_daily, uniqBy: \.id)
+                        uniqTDD = storage.retrieve(OpenAPS.Monitor.tdd_daily, as: [TDD].self)?
+                            .filter { $0.timestamp.addingTimeInterval(7.days.timeInterval) > Date() }
+                            .sorted { $0.timestamp > $1.timestamp } ?? [] }
+                    storage.save(uniqTDD, as: OpenAPS.Monitor.tdd_daily)
+
+//                    // calc for 7 day average
+//                    for uniqEvent in uniqTDD {
+//                        if uniqEvent.TDD > 0 {
+//                            total += uniqEvent.TDD
+//                            indeces += 1
+//                        }
+//                    }
+                }
 
                 for uniqEvent in uniqEvents {
                     if uniqEvent.TDD > 0 {

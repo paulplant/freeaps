@@ -97,6 +97,8 @@ extension Settings {
                                 .navigationLink(to: .configEditor(file: OpenAPS.Monitor.tempBasal), from: self)
                             Text("TDD")
                                 .navigationLink(to: .configEditor(file: OpenAPS.Monitor.tdd), from: self)
+                            Text("TDD daily")
+                                .navigationLink(to: .configEditor(file: OpenAPS.Monitor.tdd_daily), from: self)
                             Text("TDD Averages")
                                 .navigationLink(to: .configEditor(file: OpenAPS.Monitor.tdd_averages), from: self)
                             Text("Edit settings json")
