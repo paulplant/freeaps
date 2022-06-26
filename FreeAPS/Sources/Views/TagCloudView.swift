@@ -63,10 +63,10 @@ struct TagCloudView: View {
             case "Parabolic Fit",
                  textTag where textTag.contains("acce-ISF"):
                 return .zt
-            case "Autosens":
-                return .loopGreen
-            case "Standard",
+            case "Autosens",
                  "TDD":
+                return .loopGreen
+            case "Standard":
                 return .insulin
             default:
                 return .basal

@@ -113,7 +113,7 @@ extension Settings {
                             Text("TDD daily")
                                 .navigationLink(to: .configEditor(file: OpenAPS.Monitor.tdd_daily), from: self)
                             Text("TDD Averages")
-                                .navigationLink(to: .configEditor(file: OpenAPS.Monitor.tdd_averages), from: self)
+                                .navigationLink(to: .configEditor(file: OpenAPS.Monitor.tdd_avg), from: self)
                             Text("Edit settings json")
                                 .navigationLink(to: .configEditor(file: OpenAPS.FreeAPS.settings), from: self)
                         }
