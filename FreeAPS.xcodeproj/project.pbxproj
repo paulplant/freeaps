@@ -239,7 +239,7 @@
 		45252C95D220E796FDB3B022 /* ConfigEditorDataFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F8A87AA037BD079BA3528BA /* ConfigEditorDataFlow.swift */; };
 		45717281F743594AA9D87191 /* ConfigEditorRootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 920DDB21E5D0EB813197500D /* ConfigEditorRootView.swift */; };
 		4989A60B285CB71600B5A0CE /* TDD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4989A60A285CB71600B5A0CE /* TDD.swift */; };
-		4989A60D285CB75200B5A0CE /* TDD_averages.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4989A60C285CB75200B5A0CE /* TDD_averages.swift */; };
+		49BC0C152864445B0010164A /* TDD_avg.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49BC0C142864445B0010164A /* TDD_avg.swift */; };
 		4989A611285DA2A600B5A0CE /* BolusConfirmationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4989A610285DA2A600B5A0CE /* BolusConfirmationView.swift */; };
 		49D2A6FA286346CE00BA9064 /* TDD_daily.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D2A6F9286346CE00BA9064 /* TDD_daily.swift */; };
 		49D42B4E274BCBA600FCEEB4 /* Config.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 38F3783A2613555C009DB701 /* Config.xcconfig */; };
@@ -651,7 +651,7 @@
 		44080E4709E3AE4B73054563 /* ConfigEditorProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ConfigEditorProvider.swift; sourceTree = "<group>"; };
 		47DFCE895C930F784EF11843 /* CalibrationsStateModel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = CalibrationsStateModel.swift; sourceTree = "<group>"; };
 		4989A60A285CB71600B5A0CE /* TDD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TDD.swift; sourceTree = "<group>"; };
-		4989A60C285CB75200B5A0CE /* TDD_averages.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TDD_averages.swift; sourceTree = "<group>"; };
+		49BC0C142864445B0010164A /* TDD_avg.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TDD_avg.swift; sourceTree = "<group>"; };
 		4989A610285DA2A600B5A0CE /* BolusConfirmationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BolusConfirmationView.swift; sourceTree = "<group>"; };
 		49D2A6F9286346CE00BA9064 /* TDD_daily.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TDD_daily.swift; sourceTree = "<group>"; };
 		4DD795BA46B193644D48138C /* TargetsEditorRootView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TargetsEditorRootView.swift; sourceTree = "<group>"; };
@@ -1273,7 +1273,7 @@
 				38A13D3125E28B4B00EAA382 /* PumpHistoryEvent.swift */,
 				3883583325EEB38000E024B2 /* PumpSettings.swift */,
 				38E989DC25F5021400C0CED0 /* PumpStatus.swift */,
-				4989A60C285CB75200B5A0CE /* TDD_averages.swift */,
+				49BC0C142864445B0010164A /* TDD_avg.swift */,
 				49D2A6F9286346CE00BA9064 /* TDD_daily.swift */,
 				38BF021C25E7E3AF00579895 /* Reservoir.swift */,
 				3871F38625ED661C0013ECB5 /* Suggestion.swift */,
@@ -2089,7 +2089,6 @@
 				38FCF3FD25E997A80078B0D1 /* PumpHistoryStorage.swift in Sources */,
 				38D0B3B625EBE24900CB6E88 /* Battery.swift in Sources */,
 				38C4D33725E9A1A300D30B77 /* DispatchQueue+Extensions.swift in Sources */,
-				4989A60D285CB75200B5A0CE /* TDD_averages.swift in Sources */,
 				F90692CF274B999A0037068D /* HealthKitDataFlow.swift in Sources */,
 				3862CC2E2743F9F700BF832C /* CalendarManager.swift in Sources */,
 				38B4F3C325E2A20B00E76A18 /* PumpSetupView.swift in Sources */,
@@ -2261,6 +2260,7 @@
 				DD399FB31EACB9343C944C4C /* PreferencesEditorStateModel.swift in Sources */,
 				44190F0BBA464D74B857D1FB /* PreferencesEditorRootView.swift in Sources */,
 				E97285ED9B814CD5253C6658 /* AddCarbsDataFlow.swift in Sources */,
+				49BC0C152864445B0010164A /* TDD_avg.swift in Sources */,
 				38E8755427561E9800975559 /* DataFlow.swift in Sources */,
 				38E44522274E3DDC00EC9A94 /* NetworkReachabilityManager.swift in Sources */,
 				A6F097A14CAAE0CE0D11BE1B /* AddCarbsProvider.swift in Sources */,

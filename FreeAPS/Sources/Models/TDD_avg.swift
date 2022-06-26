@@ -1,21 +1,21 @@
 import Foundation
 
-struct TDD_daily: JSON, Equatable {
-    var TDD: Decimal
+struct TDD_avg: JSON, Equatable {
+    var avgTDD7d: Decimal
     var timestamp: Date
 
     init(
-        TDD: Decimal,
+        avgTDD7d: Decimal,
         timestamp: Date
     ) {
-        self.TDD = TDD
+        self.avgTDD7d = avgTDD7d
         self.timestamp = timestamp
     }
 }
 
-extension TDD_daily {
+extension TDD_avg {
     private enum CodingKeys: String, CodingKey {
-        case TDD
+        case avgTDD7d
         case timestamp
     }
 }
