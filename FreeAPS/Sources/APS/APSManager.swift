@@ -602,7 +602,7 @@ final class BaseAPSManager: APSManager, Injectable {
             storage.transaction { storage in
                 storage.append(tdd, to: file, uniqBy: \.timestamp)
                 uniqEvents = storage.retrieve(file, as: [TDD].self)?
-                    .filter { $0.timestamp.addingTimeInterval(7.days.timeInterval) > Date() }
+                    .filter { $0.timestamp.addingTimeInterval(4.hours.timeInterval) > Date() }
                     .sorted { $0.timestamp > $1.timestamp } ?? []
 
                 var calendar: Calendar { Calendar.current }
@@ -612,7 +612,7 @@ final class BaseAPSManager: APSManager, Injectable {
                 let lastDate = calendar.component(.day, from: lastLoop.timestamp)
                 let prevLoop = uniqEvents[1]
                 let prevDate = calendar.component(.day, from: prevLoop.timestamp)
-                if prevDate == lastDate {
+                if prevDate < lastDate {
                     let lastTDD = prevLoop
                     var uniqTDDdaily: [TDD_daily] = []
                     storage.transaction { storage in
