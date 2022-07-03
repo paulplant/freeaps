@@ -41,6 +41,10 @@ final class OpenAPS {
 
                 self.storage.save(meal, as: Monitor.meal)
 
+                let tdd = self.loadFileFromStorage(name: OpenAPS.Monitor.tdd)
+                let tdd_daily = self.loadFileFromStorage(name: OpenAPS.Monitor.tdd_daily)
+                let tdd_avg = self.loadFileFromStorage(name: OpenAPS.Monitor.tdd_avg)
+
                 // iob
                 let autosens = self.loadFileFromStorage(name: Settings.autosense)
                 let iob = self.iob(
@@ -55,6 +59,8 @@ final class OpenAPS {
                 // determine-basal
                 let reservoir = self.loadFileFromStorage(name: Monitor.reservoir)
 
+                let preferences = self.loadFileFromStorage(name: Settings.preferences)
+
                 let suggested = self.determineBasal(
                     glucose: glucose,
                     currentTemp: tempBasal,
@@ -63,7 +69,13 @@ final class OpenAPS {
                     autosens: autosens.isEmpty ? .null : autosens,
                     meal: meal,
                     microBolusAllowed: true,
-                    reservoir: reservoir
+                    reservoir: reservoir,
+                    pumpHistory: pumpHistory,
+                    preferences: preferences,
+                    basalProfile: basalProfile,
+                    tdd: tdd,
+                    tdd_daily: tdd_daily,
+                    tdd_avg: tdd_avg
                 )
                 debug(.openAPS, "SUGGESTED: \(suggested)")
 
@@ -290,7 +302,13 @@ final class OpenAPS {
         autosens: JSON,
         meal: JSON,
         microBolusAllowed: Bool,
-        reservoir: JSON
+        reservoir: JSON,
+        pumpHistory: JSON,
+        preferences: JSON,
+        basalProfile: JSON,
+        tdd: JSON,
+        tdd_daily: JSON,
+        tdd_avg: JSON
     ) -> RawJSON {
         dispatchPrecondition(condition: .onQueue(processQueue))
         return jsWorker.inCommonContext { worker in
@@ -314,7 +332,14 @@ final class OpenAPS {
                     autosens,
                     meal,
                     microBolusAllowed,
-                    reservoir
+                    reservoir,
+                    false, // clock
+                    pumpHistory,
+                    preferences,
+                    basalProfile,
+                    tdd,
+                    tdd_daily,
+                    tdd_avg
                 ]
             )
         }

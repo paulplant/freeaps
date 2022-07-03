@@ -586,7 +586,92 @@ final class BaseAPSManager: APSManager, Injectable {
             var enacted = suggestion
             enacted.timestamp = Date()
             enacted.recieved = received
+
             storage.save(enacted, as: OpenAPS.Enact.enacted)
+
+            // Add to tdd.json:
+            //
+            // let preferences = settingsManager.preferences
+            let currentTDD = enacted.tdd ?? 0
+            let file = OpenAPS.Monitor.tdd
+            let tdd = TDD(
+                TDD: currentTDD,
+                timestamp: Date()
+            )
+            var uniqEvents: [TDD] = []
+            storage.transaction { storage in
+                storage.append(tdd, to: file, uniqBy: \.timestamp)
+                uniqEvents = storage.retrieve(file, as: [TDD].self)?
+                    .filter { $0.timestamp.addingTimeInterval(4.hours.timeInterval) > Date() }
+                    .sorted { $0.timestamp > $1.timestamp } ?? []
+
+                var calendar: Calendar { Calendar.current }
+
+                // store last daily TDD
+                let lastLoop = uniqEvents[0]
+                let lastDate = calendar.component(.day, from: lastLoop.timestamp)
+                let prevLoop = uniqEvents[1]
+                let prevDate = calendar.component(.day, from: prevLoop.timestamp)
+                if prevDate < lastDate {
+                    let lastTDD = prevLoop
+                    var uniqTDDdaily: [TDD_daily] = []
+                    storage.transaction { storage in
+                        storage.append(lastTDD, to: OpenAPS.Monitor.tdd_daily, uniqBy: \.timestamp)
+                        uniqTDDdaily = storage.retrieve(OpenAPS.Monitor.tdd_daily, as: [TDD_daily].self)?
+                            .filter { $0.timestamp.addingTimeInterval(174.hours.timeInterval) >= Date()
+                            } // 6hrs more than 7days to be sure to catch all 7 days
+                            .sorted { $0.timestamp > $1.timestamp } ?? [] }
+                    storage.save(uniqTDDdaily, as: OpenAPS.Monitor.tdd_daily)
+
+                    // calc for 7 day average
+                    var total7d: Decimal = 0
+                    var count7d: Decimal = 0
+                    for uniqEvent in uniqTDDdaily {
+                        if uniqEvent.TDD > 0 {
+                            total7d += uniqEvent.TDD
+                            count7d += 1
+                        }
+                    }
+                    var avg7d = Decimal()
+                    if count7d > 0 {
+                        var calcAvg = total7d / count7d
+                        NSDecimalRound(&avg7d, &calcAvg, 2, .bankers)
+
+                        let avgtdd = TDD_avg(
+                            avgTDD7d: avg7d,
+                            timestamp: Date()
+                        )
+                        var uniqAVG: [TDD_avg] = []
+                        storage.transaction { storage in
+                            storage.append(avgtdd, to: OpenAPS.Monitor.tdd_avg, uniqBy: \.timestamp)
+                            uniqAVG = storage.retrieve(OpenAPS.Monitor.tdd_avg, as: [TDD_avg].self)?
+                                .filter { $0.timestamp.addingTimeInterval(7.days.timeInterval) > Date() }
+                                .sorted { $0.timestamp > $1.timestamp } ?? [] }
+                        storage.save(uniqAVG, as: OpenAPS.Monitor.tdd_avg)
+                    }
+                }
+
+                // entries for average last 2 hrs
+//                let entriesPast2hours = storage.retrieve(file, as: [TDD].self)?
+//                    .filter { $0.timestamp.addingTimeInterval(2.hours.timeInterval) > Date() }
+//                    .sorted { $0.timestamp > $1.timestamp } ?? []
+//                var total2hr: Decimal = 0
+//                var count2hr: Decimal = 0
+//                for entry in entriesPast2hours {
+//                    if entry.TDD > 0 {
+//                        total2hr += entry.TDD
+//                        count2hr += 1
+//                    }
+//                }
+//                if count2hr > 0 {
+//                    var calc_average2hr = total2hr / count2hr
+//                    var average2hr = Decimal()
+//                    NSDecimalRound(&average2hr, &calc_average2hr, 2, .bankers)
+//                }
+                storage.save(uniqEvents, as: OpenAPS.Monitor.tdd)
+            }
+            // End of tdd.json
+
             debug(.apsManager, "Suggestion enacted. Received: \(received)")
             DispatchQueue.main.async {
                 self.broadcaster.notify(EnactedSuggestionObserver.self, on: .main) {

@@ -29,6 +29,8 @@ extension Settings {
 
                 Section(header: Text("Configuration")) {
                     Text("Preferences").navigationLink(to: .preferencesEditor, from: self)
+                    Text("Middleware")
+                        .navigationLink(to: .configEditor(file: OpenAPS.Middleware.determineBasal), from: self)
                     Text("Pump Settings").navigationLink(to: .pumpSettingsEditor, from: self)
                     Text("Basal Profile").navigationLink(to: .basalProfileEditor, from: self)
                     Text("Insulin Sensitivities").navigationLink(to: .isfEditor, from: self)
@@ -93,8 +95,12 @@ extension Settings {
                                 .navigationLink(to: .configEditor(file: OpenAPS.FreeAPS.calibrations), from: self)
                             Text("Current Temp")
                                 .navigationLink(to: .configEditor(file: OpenAPS.Monitor.tempBasal), from: self)
-                            Text("Middleware")
-                                .navigationLink(to: .configEditor(file: OpenAPS.Middleware.determineBasal), from: self)
+                            Text("TDD")
+                                .navigationLink(to: .configEditor(file: OpenAPS.Monitor.tdd), from: self)
+                            Text("TDD daily")
+                                .navigationLink(to: .configEditor(file: OpenAPS.Monitor.tdd_daily), from: self)
+                            Text("TDD Averages")
+                                .navigationLink(to: .configEditor(file: OpenAPS.Monitor.tdd_avg), from: self)
                             Text("Edit settings json")
                                 .navigationLink(to: .configEditor(file: OpenAPS.FreeAPS.settings), from: self)
                         }

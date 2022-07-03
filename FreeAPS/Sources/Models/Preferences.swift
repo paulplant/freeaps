@@ -57,11 +57,12 @@ struct Preferences: JSON {
     var deltaISFrangeWeight: Decimal = 0
     var postMealISFweight: Decimal = 0
     var postMealISFduration: Decimal = 3
-    var postMealISFalways: Bool = false
-    var bgAccelISFweight: Decimal = 0
-    var bgBrakeISFweight: Decimal = 0
-    var enableBGacceleration: Bool = false
-    var maxDeltaBGthreshold: Decimal = 0.2
+    var postMealISFalways: Bool = true
+    var bgAccelISFweight: Decimal = 0.06
+    var bgBrakeISFweight: Decimal = 0.15
+    var enableBGacceleration: Bool = true
+    var maxDeltaBGthreshold: Decimal = 0.3
+    var switchSportXPM: Bool = true
 }
 
 extension Preferences {
@@ -126,6 +127,7 @@ extension Preferences {
         case bgBrakeISFweight = "bgBrake_ISF_weight"
         case enableBGacceleration = "enable_BG_acceleration"
         case maxDeltaBGthreshold = "maxDelta_bg_threshold"
+        case switchSportXPM
     }
 }
 

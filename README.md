@@ -1,11 +1,23 @@
 # FreeAPS X with aisf
 
-Ivan's tremendous effort with FreeAPS X - supplemented with an adapted oref1 algo that is based on Gerhards work with his German community, especialy Bernd who trials and tweaks all parameters for himself and documents his structured progress quite well. Gerhard's oref adation and lots of documents and simulation programs for Android can be found at: https://github.com/ga-zelle/autoISF
+Ivan's tremendous effort with FreeAPS X - supplemented with an adapted oref1 algo that is based on Gerhards work with his German community, especialy Bernd who trials and tweaks all parameters for himself and documents his structured progress quite well. Gerhard's oref adation and lots of documents and simulation programs for Android can be found at: https://github.com/ga-zelle/autoISF The Team has created numerous very good documentations, that you must read before configuring autoISF, especially the [quick guide](https://github.com/ga-zelle/autoISF/blob/A3.0.0.1_ai2.2.6/autoISF2.2_Quick_Guide.pdf)
 
-I just tweaked this oref to work with FAX and JonB helped a lot getting all prefs sorted in FAX. The whole algorithm can be found in my oref repo: https://github.com/mountrcg/oref0/tree/xpm2.2
+I just tweaked this oref to work with FAX and JonB helped a lot getting all prefs sorted in FAX. The whole algorithm can be found in my oref repo: 
+* https://github.com/mountrcg/oref0/tree/autoISF2.2.6-DynISF1.0 or just with autoISF
+* https://github.com/mountrcg/oref0/tree/autoISF2.2.6
+ 
 That will be more easy to review as the packeted js-files in FAX are not really readable. And I really suggest to look at the code.
 
-### Java changes in oref for FAX
+## Important updates
+
+autoISF remains stable in v2.2.6 However I have added [Jons](https://github.com/Jon-b-m) implementation of calculating TDD's for DynamicISF. DynISF is not included in this latest commit. 
+
+AutoISF with TDD in pop-up and in legend (bottom right corner)
+
+![view FAX-TDD](screen-FAX_aisf2.3_dynisf1.0.png) ![view watch-TDD](screenWatch_TDD.png)
+
+
+## Java changes in oref for FAX
 In order to minimize the js code from oref to use in FAX (if the need should arise) follow hese instructions by nuker:
 #### Instructions edit js-files
 
@@ -71,7 +83,7 @@ You will loose most of your previous settings in FAX, all settings with pre-defi
 
 Autosens and autoISF both manipulate sensitivityRatios and ISF. It is currently setup that the stronger sensitivityRatios win. In order to not get duplicating effects or contradicting effects, it is suggested to switch Autosens off by setting `profile.autosens_max = 1` and `profile.autosens_min = 1`, which is an absolute must if no carbs are logged, running in UAM only mode.
 
-If you enter carbs and still want to have Autosens running alongside, at least *Sensitivity Raises Target* and *Resistance Lowers Targets* should to be switched off.
+If you enter carbs and still want to have Autosens running alongside, at least *Sensitivity Raises Target* and *Resistance Lowers Targets* should to be switched off. For DynISF autosens needs to be active and be able to swing in you set boundaries, as DynISF manipulates the autosens result.
 
 ## Known Issues
 
@@ -81,19 +93,23 @@ If you enter carbs and still want to have Autosens running alongside, at least *
 
 ## Sports & autoISF
 
-When exercising and raising sensitivity via *High TT Raises Sensitivity* or *Excercise Mode* you have to switch off autoISF, as it could send you in the opposite direction. It is easiest accomplished via middleware, that automaticall sets autoISF to off
+When exercising and raising sensitivity via *High TT Raises Sensitivity* or *Excercise Mode* you have to switch off autoISF and DynISF, as it could send you in the opposite direction. It is easiest accomplished via middleware, that automatically sets autoISF to off
 
 ``` js
-function middleware(iob, currenttemp, glucose, profile, autosens, meal, reservoir, clock) {
-	const high_temptarget_raises_sensitivity = profile.exercise_mode || profile.high_temptarget_raises_sensitivity;
-	var reasonSports = "nothing to do.";
+function middleware(iob, currenttemp, glucose, profile, autosens, meal, reservoir, clock, pumphistory, preferences, basalProfile) {
 
-	if (high_temptarget_raises_sensitivity && profile.temptargetSet && profile.min_bg > 110) {
-		profile.use_autoisf = false;
-		reasonSports = "autoISF off due to Exercise Target. ";
-	}
-	return reasonSports
-}
+    // Turn off DynamicISF and AutoISF when using a temp target >= 118 (6.5 mol/l) and if an exercise setting is enabled.
+    const autoswitchoff = preferences.switchSportXPM;
+    var reasonSports  = "";
+    if ((profile.high_temptarget_raises_sensitivity == true || profile.exercise_mode == true) && autoswitchoff) {
+        exerciseSetting = true;
+    }
+    if (profile.temptargetSet && profile.min_bg > 109 && exerciseSetting == true) {
+        profile.use_autoisf = false;
+        reasonSports = "autoISF & DynISF off due to Exercise Target. Current min target: " + currentMinTarget + "! ";
+    }
+    return `${reasonSports}`
+ }
 ```
 
 ## Middleware

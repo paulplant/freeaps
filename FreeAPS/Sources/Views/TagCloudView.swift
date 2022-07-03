@@ -55,13 +55,16 @@ struct TagCloudView: View {
             switch textTag {
             case textTag where textTag.contains("Floating"):
                 return .loopYellow
-            case "autoISF":
+            case "autoISF",
+                 textTag where textTag.contains("final"):
                 return .loopRed
             case "SMB Delivery Ratio:":
                 return .loopOrange
-            case "Parabolic Fit":
+            case "Parabolic Fit",
+                 textTag where textTag.contains("acce-ISF"):
                 return .zt
-            case "Autosens":
+            case "Autosens",
+                 "TDD":
                 return .loopGreen
             case "Standard":
                 return .insulin
