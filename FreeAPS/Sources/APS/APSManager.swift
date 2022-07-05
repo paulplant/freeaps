@@ -602,7 +602,7 @@ final class BaseAPSManager: APSManager, Injectable {
             storage.transaction { storage in
                 storage.append(tdd, to: file, uniqBy: \.timestamp)
                 uniqEvents = storage.retrieve(file, as: [TDD].self)?
-                    .filter { $0.timestamp.addingTimeInterval(24.hours.timeInterval) > Date() }
+                    .filter { $0.timestamp.addingTimeInterval(12.hours.timeInterval) > Date() }
                     .sorted { $0.timestamp > $1.timestamp } ?? []
 
                 var calendar: Calendar { Calendar.current }
@@ -618,7 +618,7 @@ final class BaseAPSManager: APSManager, Injectable {
                     storage.transaction { storage in
                         storage.append(lastTDD, to: OpenAPS.Monitor.tdd_daily, uniqBy: \.timestamp)
                         uniqTDDdaily = storage.retrieve(OpenAPS.Monitor.tdd_daily, as: [TDD_daily].self)?
-                            .filter { $0.timestamp.addingTimeInterval(174.hours.timeInterval) >= Date()
+                            .filter { $0.timestamp.addingTimeInterval(154.hours.timeInterval) >= Date()
                             } // 6hrs more than 7days to be sure to catch all 7 days
                             .sorted { $0.timestamp > $1.timestamp } ?? [] }
                     storage.save(uniqTDDdaily, as: OpenAPS.Monitor.tdd_daily)
@@ -641,13 +641,14 @@ final class BaseAPSManager: APSManager, Injectable {
                             avgTDD7d: avg7d,
                             timestamp: Date()
                         )
-                        var uniqAVG: [TDD_avg] = []
-                        storage.transaction { storage in
-                            storage.append(avgtdd, to: OpenAPS.Monitor.tdd_avg, uniqBy: \.timestamp)
-                            uniqAVG = storage.retrieve(OpenAPS.Monitor.tdd_avg, as: [TDD_avg].self)?
-                                .filter { $0.timestamp.addingTimeInterval(7.days.timeInterval) > Date() }
-                                .sorted { $0.timestamp > $1.timestamp } ?? [] }
-                        storage.save(uniqAVG, as: OpenAPS.Monitor.tdd_avg)
+                        storage.save(avgtdd, as: OpenAPS.Monitor.tdd_avg)
+//                        var uniqAVG: [TDD_avg] = []
+//                        storage.transaction { storage in
+//                            storage.append(avgtdd, to: OpenAPS.Monitor.tdd_avg, uniqBy: \.timestamp)
+//                            uniqAVG = storage.retrieve(OpenAPS.Monitor.tdd_avg, as: [TDD_avg].self)?
+//                                .filter { $0.timestamp.addingTimeInterval(7.days.timeInterval) > Date() }
+//                                .sorted { $0.timestamp > $1.timestamp } ?? [] }
+//                        storage.save(uniqAVG, as: OpenAPS.Monitor.tdd_avg)
                     }
                 }
 
