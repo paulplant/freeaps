@@ -14,7 +14,7 @@ struct MainView: View {
 
     var body: some View {
         ZStack(alignment: .topLeading) {
-            if state.timerDate.timeIntervalSince(state.lastUpdate) > 10 {
+            if 1 == 2 && state.timerDate.timeIntervalSince(state.lastUpdate) > 10 {
                 HStack {
                     withAnimation {
                         BlinkingView(count: 5, size: 3)
@@ -72,7 +72,7 @@ struct MainView: View {
                         Text("TDD").foregroundColor(.insulin).font(.caption).fixedSize()
                             .scaledToFill()
                             .minimumScaleFactor(0.5)
-                            .padding(.bottom, 6)
+                        // .padding(.bottom, 6)
                     }
                     HStack {
                         Text(state.delta)
@@ -86,7 +86,7 @@ struct MainView: View {
                             .scaledToFill()
                             .minimumScaleFactor(0.5)
                         Spacer()
-                        Text(iobFormatter.string(from: (state.tdd ?? 0) as NSNumber)!).font(.caption).fixedSize()
+                        Text(tddFormatter.string(from: (state.tdd ?? 0) as NSNumber)!).font(.caption).fixedSize()
                             .foregroundColor(.insulin)
                             .scaledToFill()
                             .minimumScaleFactor(0.5)
@@ -189,6 +189,13 @@ struct MainView: View {
         return formatter
     }
 
+    private var tddFormatter: NumberFormatter {
+        let formatter = NumberFormatter()
+        formatter.maximumFractionDigits = 0
+        formatter.numberStyle = .none
+        return formatter
+    }
+
     private var timeString: String {
         let minAgo = Int((Date().timeIntervalSince(state.lastLoopDate ?? .distantPast) - Config.lag) / 60) + 1
         if minAgo > 1440 {
@@ -242,7 +249,7 @@ struct ContentView_Previews: PreviewProvider {
         state.iob = 9.9
         state.cob = 88
         state.isf = 100
-        state.tdd = 35.95
+        state.tdd = 36
         state.eventualBG = "232"
 
         state.lastLoopDate = Date().addingTimeInterval(-200)
