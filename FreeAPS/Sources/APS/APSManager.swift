@@ -602,7 +602,7 @@ final class BaseAPSManager: APSManager, Injectable {
             storage.transaction { storage in
                 storage.append(tdd, to: file, uniqBy: \.timestamp)
                 uniqEvents = storage.retrieve(file, as: [TDD].self)?
-                    .filter { $0.timestamp.addingTimeInterval(4.hours.timeInterval) > Date() }
+                    .filter { $0.timestamp.addingTimeInterval(24.hours.timeInterval) > Date() }
                     .sorted { $0.timestamp > $1.timestamp } ?? []
 
                 var calendar: Calendar { Calendar.current }
