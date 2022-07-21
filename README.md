@@ -98,8 +98,9 @@ When exercising and raising sensitivity via *High TT Raises Sensitivity* or *Exc
 ``` js
 function middleware(iob, currenttemp, glucose, profile, autosens, meal, reservoir, clock, pumphistory, preferences, basalProfile) {
 
-    // Turn off DynamicISF and AutoISF when using a temp target >= 118 (6.5 mol/l) and if an exercise setting is enabled.
+    // Turn off DynamicISF and AutoISF when using a temp target >= 110 and if an exercise setting is enabled.
     const autoswitchoff = preferences.switchSportXPM;
+    const currentMinTarget = profile.min_bg;
     var reasonSports  = "";
     if ((profile.high_temptarget_raises_sensitivity == true || profile.exercise_mode == true) && autoswitchoff) {
         exerciseSetting = true;
