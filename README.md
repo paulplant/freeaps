@@ -93,7 +93,7 @@ If you enter carbs and still want to have Autosens running alongside, at least *
 
 ## Sports & autoISF
 
-When exercising and raising sensitivity via *High TT Raises Sensitivity* or *Excercise Mode* you have to switch off autoISF and DynISF, as it could send you in the opposite direction. It is easiest accomplished via middleware, that automatically sets autoISF to off
+When exercising and raising sensitivity via *High TT Raises Sensitivity* or *Excercise Mode* you have to switch off autoISF , as it could send you in the opposite direction. It is easiest accomplished via middleware, that automatically sets autoISF to off
 
 ``` js
 function middleware(iob, currenttemp, glucose, profile, autosens, meal, reservoir, clock, pumphistory, preferences, basalProfile) {
@@ -106,7 +106,7 @@ function middleware(iob, currenttemp, glucose, profile, autosens, meal, reservoi
     }
     if (profile.temptargetSet && profile.min_bg > 109 && exerciseSetting == true) {
         profile.use_autoisf = false;
-        reasonSports = "autoISF & DynISF off due to Exercise Target. Current min target: " + currentMinTarget + "! ";
+        reasonSports = "autoISF off due to Exercise Target. Current min target: " + currentMinTarget + "! ";
     }
     return `${reasonSports}`
  }
