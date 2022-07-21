@@ -77,6 +77,24 @@ extension PreferencesEditor {
 
             let xpmToogles = [
                 Field(
+                    displayName: "AutoISF IOB Threshold",
+                    type: .decimal(keypath: \.iobThresholdPercent),
+                    infoText: NSLocalizedString(
+                        "Fraction of maxIOB value that if surpassed will prevent any further SMB's being administered. Setting to 1 disables the IOB threshold for SMB's, defaults is set to 0.6!",
+                        comment: "AutoISF IOB threshold"
+                    ),
+                    settable: self
+                ),
+                Field(
+                    displayName: "Temp targets toggle SMB",
+                    type: .boolean(keypath: \.autoISFtempSMB),
+                    infoText: NSLocalizedString(
+                        "Defaults to false. If true, autoISF will block SMB's when odd TempTargets are used (lower boundary) and enforce SMB, when even Temp Targets are used.",
+                        comment: "Floating Carbs"
+                    ),
+                    settable: self
+                ),
+                Field(
                     displayName: "Enable Floating Carbs",
                     type: .boolean(keypath: \.floatingcarbs),
                     infoText: NSLocalizedString(
