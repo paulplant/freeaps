@@ -23,7 +23,7 @@ extension PreferencesEditor {
                 self?.provider.migrateUnits()
             }
 
-            // MARK: - Sport fields
+            // MARK: - Quick fields
 
             let quickPrefs = [
                 Field(
@@ -37,9 +37,9 @@ extension PreferencesEditor {
                 ),
                 Field(
                     displayName: "AutoISF IOB Threshold",
-                    type: .decimal(keypath: \.iobThresholdPercent),
+                    type: .decimal(keypath: \.iobThreshold),
                     infoText: NSLocalizedString(
-                        "Fraction of maxIOB value that if surpassed will prevent any further SMB's being administered. Setting to 1 disables the IOB threshold for SMB's, defaults is set to 0.6!",
+                        "Safety setting: Amount of IOB that if surpassed will prevent any further SMB's being administered. Default is 0, which disables the IOB threshold for SMB's. Advisable to set to 70% of maxIOB, can be meal dependant.",
                         comment: "AutoISF IOB threshold"
                     ),
                     settable: self

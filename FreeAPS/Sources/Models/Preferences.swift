@@ -51,7 +51,7 @@ struct Preferences: JSON {
     var smbDeliveryRatioBGrange: Decimal = 0
     var smbDeliveryRatioMin: Decimal = 0.5
     var smbDeliveryRatioMax: Decimal = 0.75
-    var iobThresholdPercent: Decimal = 1
+    var iobThreshold: Decimal = 0
     var autoISFtempSMB: Bool = false
     var enableautoISFwithCOB: Bool = false
     var higherISFrangeWeight: Decimal = 0
@@ -115,7 +115,7 @@ extension Preferences {
         case noisyCGMTargetMultiplier
         case suspendZerosIOB = "suspend_zeros_iob"
         case floatingcarbs = "floating_carbs"
-        case iobThresholdPercent = "iob_threshold_percent"
+        case iobThreshold = "iob_threshold"
         case autoISFtempSMB = "autoisf_temp_smb"
         case smbDeliveryRatioBGrange = "smb_delivery_ratio_bg_range"
         case smbDeliveryRatioMin = "smb_delivery_ratio_min"
