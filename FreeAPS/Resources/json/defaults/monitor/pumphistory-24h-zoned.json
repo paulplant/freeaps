@@ -1,1 +1,9 @@
-[]
+[
+  {
+    "_type" : "Bolus",
+    "id" : "e1e63a7feaa601d5ed189c4feae28a31",
+    "timestamp" : "2022-08-11T08:54:52.358Z",
+    "amount" : 0.1,
+    "duration" : 0
+  }
+]
