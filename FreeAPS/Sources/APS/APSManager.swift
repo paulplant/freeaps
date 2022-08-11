@@ -608,9 +608,11 @@ final class BaseAPSManager: APSManager, Injectable {
                 var calendar: Calendar { Calendar.current }
 
                 // store last daily TDD
-                let lastLoop = uniqEvents[0]
+                var lastLoop = tdd
+                if !uniqEvents.isEmpty { lastLoop = uniqEvents[0] }
                 let lastDate = calendar.component(.day, from: lastLoop.timestamp)
-                let prevLoop = uniqEvents[1]
+                var prevLoop = tdd
+                if uniqEvents.count > 1 { prevLoop = uniqEvents[1] }
                 let prevDate = calendar.component(.day, from: prevLoop.timestamp)
                 if prevDate < lastDate {
                     let lastTDD = prevLoop
